@@ -1,7 +1,9 @@
-package by.grodno.vasili.presentation;
+package by.grodno.vasili.presentation.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import by.grodno.vasili.presentation.R;
 
 public class NotesActivity extends AppCompatActivity {
 

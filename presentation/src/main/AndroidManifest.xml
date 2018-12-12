@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name="by.grodno.vasili.presentation.NotesActivity">
+        <activity android:name="by.grodno.vasili.presentation.view.NotesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
