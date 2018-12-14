@@ -3,7 +3,7 @@ package by.grodno.vasili.domain.interactor;
 import java.util.Collection;
 
 import by.grodno.vasili.domain.executor.PostExecutionThread;
-import by.grodno.vasili.domain.executor.ThreadExecutor;
+import by.grodno.vasili.domain.executor.SubscriberThread;
 import by.grodno.vasili.domain.model.Note;
 import by.grodno.vasili.domain.repository.NoteRepository;
 import io.reactivex.Single;
@@ -14,8 +14,8 @@ import io.reactivex.Single;
 public class GetNotesListUseCase extends UseCase<Collection<Note>, Void> {
     private final NoteRepository repository;
 
-    public GetNotesListUseCase(ThreadExecutor executor, PostExecutionThread postExecutionThread, NoteRepository repository) {
-        super(executor, postExecutionThread);
+    public GetNotesListUseCase(SubscriberThread subscriberThread, PostExecutionThread postExecutionThread, NoteRepository repository) {
+        super(postExecutionThread, subscriberThread);
         this.repository = repository;
     }
 

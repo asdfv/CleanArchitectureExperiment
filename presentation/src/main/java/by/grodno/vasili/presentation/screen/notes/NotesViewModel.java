@@ -8,11 +8,11 @@ import java.util.Collection;
 
 import by.grodno.vasili.data.datasource.FirebaseNoteEntityDatasource;
 import by.grodno.vasili.data.entity.NoteEntityDataMapper;
-import by.grodno.vasili.data.executor.JobExecutor;
 import by.grodno.vasili.data.repository.NoteDataRepository;
 import by.grodno.vasili.domain.interactor.GetNotesListUseCase;
 import by.grodno.vasili.domain.model.Note;
-import by.grodno.vasili.presentation.UIThread;
+import by.grodno.vasili.presentation.thread.IOThread;
+import by.grodno.vasili.presentation.thread.UIThread;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class NotesViewModel extends ViewModel {
@@ -24,7 +24,7 @@ public class NotesViewModel extends ViewModel {
         FirebaseNoteEntityDatasource datasource = new FirebaseNoteEntityDatasource();
         NoteEntityDataMapper mapper = new NoteEntityDataMapper();
         this.notesListUseCase = new GetNotesListUseCase(
-                new JobExecutor(),
+                new IOThread(),
                 new UIThread(),
                 new NoteDataRepository(datasource, mapper)
         );

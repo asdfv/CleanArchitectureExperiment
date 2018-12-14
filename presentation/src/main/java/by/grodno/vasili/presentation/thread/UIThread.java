@@ -1,4 +1,4 @@
-package by.grodno.vasili.presentation;
+package by.grodno.vasili.presentation.thread;
 
 import by.grodno.vasili.domain.executor.PostExecutionThread;
 import io.reactivex.Scheduler;
