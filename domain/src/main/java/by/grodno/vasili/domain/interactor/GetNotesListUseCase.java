@@ -14,7 +14,7 @@ import io.reactivex.Single;
 public class GetNotesListUseCase extends UseCase<Collection<Note>, Void> {
     private final NoteRepository repository;
 
-    GetNotesListUseCase(ThreadExecutor executor, PostExecutionThread postExecutionThread, NoteRepository repository) {
+    public GetNotesListUseCase(ThreadExecutor executor, PostExecutionThread postExecutionThread, NoteRepository repository) {
         super(executor, postExecutionThread);
         this.repository = repository;
     }

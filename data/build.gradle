@@ -36,8 +36,11 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-admin:6.6.0'
 
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.4'
+    implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     implementation 'commons-collections:commons-collections:3.2.2'
+
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
+
 
     annotationProcessor 'com.google.auto.value:auto-value:1.4'
 

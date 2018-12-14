@@ -22,6 +22,10 @@ allprojects {
     }
 }
 
+ext {
+    rxJavaVersion = "2.2.0"
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

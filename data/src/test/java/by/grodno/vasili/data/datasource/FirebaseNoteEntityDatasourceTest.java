@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 /**
- * Test read and write to Firebase
+ * Non production test read and write to Firebase
  */
 public class FirebaseNoteEntityDatasourceTest {
     private static final String TEST_DESCRIPTION = "desc";
