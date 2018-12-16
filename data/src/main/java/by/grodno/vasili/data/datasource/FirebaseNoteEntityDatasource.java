@@ -3,28 +3,24 @@ package by.grodno.vasili.data.datasource;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import by.grodno.vasili.data.entity.NoteEntity;
+import by.grodno.vasili.data.entity.mapper.NoteEntityDataMapper;
 import by.grodno.vasili.data.error.DeletingError;
 import by.grodno.vasili.data.error.SavingError;
+import by.grodno.vasili.data.util.SingleValueOnSubscribe;
+import by.grodno.vasili.domain.error.NotFoundError;
 import io.reactivex.Completable;
 import io.reactivex.Single;
-
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import io.reactivex.exceptions.Exceptions;
 
 /**
  * {@link NoteEntityDatasource} implementation for work with Firebase realtime database
@@ -44,59 +40,64 @@ public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
             "  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n" +
             "  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-qpgre%40cleanarchitectureexperiment.iam.gserviceaccount.com\"\n" +
             "}\n";
+    private final FirebaseDatabase database;
+    private final NoteEntityDataMapper mapper;
 
-    private final DatabaseReference notesReference;
-
-    public FirebaseNoteEntityDatasource() {
-        init();
-        notesReference = FirebaseDatabase.getInstance().getReference(NOTES_PATH);
+    public FirebaseNoteEntityDatasource(NoteEntityDataMapper mapper) {
+        this.database = initFirebase();
+        this.mapper = mapper;
     }
 
     @Override
     public Single<NoteEntity> one(String id) {
-        return Single.create(observer -> notesReference.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                try {
-                    NoteEntity noteEntity = dataSnapshot.getValue(NoteEntity.class);
-                    noteEntity.id = dataSnapshot.getKey();
-                    observer.onSuccess(noteEntity);
-                } catch (DatabaseException e) {
-                    observer.onError(e);
-                }
-            }
+        Query noteRef = database.getReference(NOTES_PATH).child(id);
+        return Single.create(new SingleValueOnSubscribe(noteRef))
+                .map(snapshot -> {
+                    NoteEntity entity = mapper.convert(snapshot);
+                    if (entity == null) {
+                        throw Exceptions.propagate(new NotFoundError("Not found entity with id = " + id));
+                    }
+                    return entity;
+                });
+    }
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                observer.onError(new Exception(error.getMessage()));
-            }
-        }));
+    @Override
+    public Single<Collection<NoteEntity>> all() {
+        Query notesRef = database.getReference(NOTES_PATH);
+        return Single.create(new SingleValueOnSubscribe(notesRef))
+                .map(mapper::convertToCollection);
     }
 
     @Override
     public Completable delete(String id) {
-        return Completable.create(observer -> notesReference.child(id).removeValue(((error, ref) -> {
-            if (error == null) {
-                observer.onComplete();
-            } else {
-                observer.onError(new DeletingError(error.getDetails()));
+        return Completable.create(observer -> {
+            DatabaseReference noteRef = database.getReference(NOTES_PATH).child(id);
+            noteRef.removeValue(((error, ref) -> {
+                if (error == null) {
+                    observer.onComplete();
+                } else {
+                    observer.onError(new DeletingError(error.getDetails()));
+                }
             }
-        }
-        )));
+            ));
+        });
     }
 
     @Override
     public Single<String> insert(NoteEntity noteEntity) {
-        return Single.create(observer -> notesReference.push().setValue(noteEntity, (error, ref) -> {
-            if (error == null) {
-                observer.onSuccess(ref.getKey());
-            } else {
-                observer.onError(new SavingError(error.getMessage()));
-            }
-        }));
+        return Single.create(observer -> {
+            DatabaseReference noteRef = database.getReference(NOTES_PATH);
+            noteRef.push().setValue(noteEntity, (error, ref) -> {
+                if (error == null) {
+                    observer.onSuccess(ref.getKey());
+                } else {
+                    observer.onError(new SavingError(error.getMessage()));
+                }
+            });
+        });
     }
 
-    private void init() {
+    private FirebaseDatabase initFirebase() {
         try {
             GoogleCredentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(KEY_STRING.getBytes(StandardCharsets.UTF_8)));
             FirebaseOptions options = new FirebaseOptions.Builder()
@@ -107,27 +108,6 @@ public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public Single<Collection<NoteEntity>> all() {
-        return Single.create(observer -> notesReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<Map<String, NoteEntity>> type = new GenericTypeIndicator<Map<String, NoteEntity>>() {
-                };
-                try {
-                    Map<String, NoteEntity> map = defaultIfNull(dataSnapshot.getValue(type), new HashMap<>());
-                    observer.onSuccess(map.values());
-                } catch (DatabaseException e) {
-                    observer.onError(e);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                observer.onError(new Exception(error.getMessage()));
-            }
-        }));
+        return FirebaseDatabase.getInstance();
     }
 }

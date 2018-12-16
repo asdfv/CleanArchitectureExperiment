@@ -7,7 +7,7 @@ import android.arch.lifecycle.ViewModel;
 import java.util.Collection;
 
 import by.grodno.vasili.data.datasource.FirebaseNoteEntityDatasource;
-import by.grodno.vasili.data.entity.NoteEntityDataMapper;
+import by.grodno.vasili.data.entity.mapper.NoteEntityDataMapper;
 import by.grodno.vasili.data.repository.NoteDataRepository;
 import by.grodno.vasili.domain.interactor.GetNotesListUseCase;
 import by.grodno.vasili.domain.model.Note;
@@ -21,8 +21,8 @@ public class NotesViewModel extends ViewModel {
 
     // TODO: IOC
     public NotesViewModel() {
-        FirebaseNoteEntityDatasource datasource = new FirebaseNoteEntityDatasource();
         NoteEntityDataMapper mapper = new NoteEntityDataMapper();
+        FirebaseNoteEntityDatasource datasource = new FirebaseNoteEntityDatasource(mapper);
         this.notesListUseCase = new GetNotesListUseCase(
                 new IOThread(),
                 new UIThread(),

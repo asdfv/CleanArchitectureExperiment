@@ -3,7 +3,7 @@ package by.grodno.vasili.data.repository;
 import java.util.Collection;
 
 import by.grodno.vasili.data.datasource.NoteEntityDatasource;
-import by.grodno.vasili.data.entity.NoteEntityDataMapper;
+import by.grodno.vasili.data.entity.mapper.NoteEntityDataMapper;
 import by.grodno.vasili.domain.model.Note;
 import by.grodno.vasili.domain.repository.NoteRepository;
 import io.reactivex.Completable;

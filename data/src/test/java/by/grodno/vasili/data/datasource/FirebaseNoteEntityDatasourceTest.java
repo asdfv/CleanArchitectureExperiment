@@ -2,13 +2,13 @@ package by.grodno.vasili.data.datasource;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.Timeout;
 
 import java.util.Collection;
 
 import by.grodno.vasili.data.entity.NoteEntity;
+import by.grodno.vasili.data.entity.mapper.NoteEntityDataMapper;
+import io.reactivex.observers.TestObserver;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -28,7 +28,8 @@ public class FirebaseNoteEntityDatasourceTest {
 
     @BeforeClass
     public static void setUp() {
-        database = new FirebaseNoteEntityDatasource();
+        NoteEntityDataMapper mapper = new NoteEntityDataMapper();
+        database = new FirebaseNoteEntityDatasource(mapper);
         testId = database.insert(createNote()).blockingGet();
         assertNotNull("Saved id is null", testId);
     }
@@ -52,6 +53,13 @@ public class FirebaseNoteEntityDatasourceTest {
     public void readOneTest() {
         NoteEntity note = database.one(testId).blockingGet();
         assertEquals("Received not what was previously saved", note.description, TEST_DESCRIPTION);
+    }
+
+    @Test()
+    public void readOneInNotFound() {
+        TestObserver<NoteEntity> testObserver = database.one("fake id").test();
+        testObserver.awaitTerminalEvent();
+        testObserver.assertError(RuntimeException.class);
     }
 
     private static NoteEntity createNote() {

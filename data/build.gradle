@@ -36,6 +36,8 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-admin:6.6.0'
 
+    implementation "com.jakewharton.timber:timber:${timberVersion}"
+
     implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     implementation 'commons-collections:commons-collections:3.2.2'
 
