@@ -7,27 +7,28 @@ import android.arch.lifecycle.ViewModel;
 import java.util.Collection;
 
 import by.grodno.vasili.data.datasource.FirebaseNoteEntityDatasource;
+import by.grodno.vasili.data.datasource.NoteEntityDatasource;
 import by.grodno.vasili.data.entity.mapper.NoteEntityDataMapper;
 import by.grodno.vasili.data.repository.NoteDataRepository;
 import by.grodno.vasili.domain.interactor.GetNotesListUseCase;
 import by.grodno.vasili.domain.model.Note;
+import by.grodno.vasili.domain.repository.NoteRepository;
 import by.grodno.vasili.presentation.thread.IOThread;
 import by.grodno.vasili.presentation.thread.UIThread;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class NotesViewModel extends ViewModel {
-    private final GetNotesListUseCase notesListUseCase;
+    private final GetNotesListUseCase useCase;
     private MutableLiveData<Collection<Note>> notesLiveData;
 
     // TODO: IOC
     public NotesViewModel() {
         NoteEntityDataMapper mapper = new NoteEntityDataMapper();
-        FirebaseNoteEntityDatasource datasource = new FirebaseNoteEntityDatasource(mapper);
-        this.notesListUseCase = new GetNotesListUseCase(
-                new IOThread(),
-                new UIThread(),
-                new NoteDataRepository(datasource, mapper)
-        );
+        NoteEntityDatasource datasource = new FirebaseNoteEntityDatasource(mapper);
+        NoteRepository repository = new NoteDataRepository(datasource, mapper);
+        UIThread uiThread = new UIThread();
+        IOThread ioThread = new IOThread();
+        this.useCase = new GetNotesListUseCase(ioThread, uiThread, repository);
     }
 
     LiveData<Collection<Note>> getNotesLiveData() {
@@ -50,12 +51,12 @@ public class NotesViewModel extends ViewModel {
                 e.printStackTrace();
             }
         };
-        notesListUseCase.execute(observer, null);
+        useCase.execute(observer, null);
     }
 
     @Override
     protected void onCleared() {
         super.onCleared();
-        notesListUseCase.dispose();
+        useCase.dispose();
     }
 }
