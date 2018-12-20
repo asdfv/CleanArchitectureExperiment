@@ -5,7 +5,7 @@ import android.support.multidex.MultiDexApplication;
 
 import javax.inject.Inject;
 
-import by.grodno.vasili.presentation.di.DaggerAppComponent;
+import by.grodno.vasili.presentation.dagger.DaggerAppComponent;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;

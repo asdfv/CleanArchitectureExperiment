@@ -1,4 +1,4 @@
-package by.grodno.vasili.presentation.di;
+package by.grodno.vasili.presentation.dagger;
 
 import android.app.Application;
 import android.arch.lifecycle.ViewModel;
@@ -17,7 +17,7 @@ import by.grodno.vasili.data.repository.NoteDataRepository;
 import by.grodno.vasili.domain.interactor.GetNotesListUseCase;
 import by.grodno.vasili.domain.repository.NoteRepository;
 import by.grodno.vasili.presentation.NoteApplication;
-import by.grodno.vasili.presentation.di.scopes.NotesActivityScope;
+import by.grodno.vasili.presentation.dagger.scopes.NotesActivityScope;
 import by.grodno.vasili.presentation.screen.notes.NotesActivity;
 import by.grodno.vasili.presentation.screen.notes.NotesViewModel;
 import by.grodno.vasili.presentation.thread.IOThread;

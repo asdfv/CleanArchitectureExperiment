@@ -1,4 +1,4 @@
-package by.grodno.vasili.presentation.di;
+package by.grodno.vasili.presentation.dagger;
 
 import android.arch.lifecycle.ViewModel;
 
