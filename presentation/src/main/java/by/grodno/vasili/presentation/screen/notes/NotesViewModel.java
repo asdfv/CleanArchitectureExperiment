@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import by.grodno.vasili.domain.interactor.GetNotesListUseCase;
 import by.grodno.vasili.domain.model.Note;
 import io.reactivex.observers.DisposableSingleObserver;
+import timber.log.Timber;
 
 public class NotesViewModel extends ViewModel {
     private final GetNotesListUseCase useCase;
@@ -38,7 +39,7 @@ public class NotesViewModel extends ViewModel {
 
             @Override
             public void onError(Throwable e) {
-                e.printStackTrace();
+                Timber.e(e, "Error executing use case for get all notes");
             }
         };
         useCase.execute(observer, null);

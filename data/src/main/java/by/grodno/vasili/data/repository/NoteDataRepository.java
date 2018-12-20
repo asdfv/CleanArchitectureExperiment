@@ -32,11 +32,11 @@ public class NoteDataRepository implements NoteRepository {
 
     // TODO: Replace fake data
     @Override
-//    public Single<Collection<Note>> getAll() {
-//        return datasource.all().map(mapper::convert);
-//    }
     public Single<Collection<Note>> getAll() {
+//        Single<Collection<NoteEntity>> noteEntities = datasource.all();
+//        return noteEntities.map(mapper::convert);
         return Single.fromObservable(Observable.just(asList(new Note("1", "title1", "desc1"), new Note("2", "title2", "desc2"))));
+
     }
 
     @Override

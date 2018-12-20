@@ -1,7 +1,7 @@
 *Used technologies and patterns*
 - Android clean architecture
 - Dagger 2 for android
-- Android architecture component (MVVM, LiveData)
+- Android architecture components (MVVM, LiveData)
 - Firebase
 - RxJava
 

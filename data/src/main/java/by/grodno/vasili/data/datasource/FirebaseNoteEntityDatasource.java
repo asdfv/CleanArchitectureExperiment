@@ -21,6 +21,7 @@ import by.grodno.vasili.domain.error.NotFoundError;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.exceptions.Exceptions;
+import timber.log.Timber;
 
 /**
  * {@link NoteEntityDatasource} implementation for work with Firebase realtime database
@@ -106,7 +107,7 @@ public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
                     .build();
             FirebaseApp.initializeApp(options);
         } catch (IOException e) {
-            e.printStackTrace();
+            Timber.e(e, "Error initializing Firebase");
         }
         return FirebaseDatabase.getInstance();
     }

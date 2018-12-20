@@ -15,7 +15,6 @@ import timber.log.Timber;
  * Main application class
  */
 public class NoteApplication extends MultiDexApplication implements HasActivityInjector {
-    public static NoteApplication application;
 
     @Inject
     DispatchingAndroidInjector<Activity> activityInjector;
@@ -25,7 +24,6 @@ public class NoteApplication extends MultiDexApplication implements HasActivityI
         super.onCreate();
         initTimber();
         initDagger();
-        application = this;
     }
 
     private void initDagger() {
