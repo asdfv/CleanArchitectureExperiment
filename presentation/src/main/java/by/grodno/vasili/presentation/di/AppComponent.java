@@ -1,9 +1,13 @@
 package by.grodno.vasili.presentation.di;
 
 import android.app.Application;
+import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 
+import java.util.Map;
+
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import by.grodno.vasili.data.datasource.FirebaseNoteEntityDatasource;
@@ -15,6 +19,7 @@ import by.grodno.vasili.domain.repository.NoteRepository;
 import by.grodno.vasili.presentation.NoteApplication;
 import by.grodno.vasili.presentation.di.scopes.NotesActivityScope;
 import by.grodno.vasili.presentation.screen.notes.NotesActivity;
+import by.grodno.vasili.presentation.screen.notes.NotesViewModel;
 import by.grodno.vasili.presentation.thread.IOThread;
 import by.grodno.vasili.presentation.thread.UIThread;
 import dagger.Binds;
@@ -24,6 +29,7 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
+import dagger.multibindings.IntoMap;
 
 @Singleton
 @Component(modules = {AndroidSupportInjectionModule.class, AppModule.class, ActivityBuilder.class})
@@ -41,13 +47,20 @@ public interface AppComponent {
 
 @Module
 interface AppModule {
+    @SuppressWarnings("unused")
     @Binds
     @Singleton
     Context bindContext(Application application);
+
+    @Provides
+    static ViewModelProvider.Factory bindViewModelFactory(Map<Class<? extends ViewModel>, Provider<ViewModel>> creators) {
+        return new ViewModelProviderFactory(creators);
+    }
 }
 
 @Module
 interface ActivityBuilder {
+    @SuppressWarnings("unused")
     @NotesActivityScope
     @ContributesAndroidInjector(modules = {NotesActivityModule.class})
     NotesActivity bindNotesActivity();
@@ -67,9 +80,9 @@ abstract class NotesActivityModule {
         return new GetNotesListUseCase(ioThread, uiThread, repository);
     }
 
-    @Provides
-    @NotesActivityScope
-    static ViewModelProvider.Factory bindFactory(GetNotesListUseCase useCase) {
-        return new ViewModelProviderFactory<>(useCase);
-    }
+    @SuppressWarnings("unused")
+    @Binds
+    @IntoMap
+    @ViewModelKey(NotesViewModel.class)
+    abstract ViewModel bindNotesViewModel(NotesViewModel notesViewModel);
 }

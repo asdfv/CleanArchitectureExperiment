@@ -17,7 +17,7 @@ public class NotesViewModel extends ViewModel {
     private MutableLiveData<Collection<Note>> notesLiveData;
 
     @Inject
-    public NotesViewModel(GetNotesListUseCase useCase) {
+    NotesViewModel(GetNotesListUseCase useCase) {
         this.useCase = useCase;
     }
 
