@@ -10,7 +10,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "by.grodno.vasili.presantation"
+        applicationId "by.grodno.vasili.presentation"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
