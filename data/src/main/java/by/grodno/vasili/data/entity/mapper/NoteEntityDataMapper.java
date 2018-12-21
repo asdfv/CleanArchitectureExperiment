@@ -9,6 +9,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import by.grodno.vasili.data.entity.NoteEntity;
@@ -80,8 +81,8 @@ public class NoteEntityDataMapper {
      * Transform a collection of {@link NoteEntity} into an collection of {@link Note}.
      */
     @NonNull
-    public Collection<Note> convert(Collection<NoteEntity> entities) {
-        Collection<Note> result = new LinkedList<>();
+    public List<Note> convert(Collection<NoteEntity> entities) {
+        List<Note> result = new LinkedList<>();
         for (NoteEntity entity : entities) {
             if (entity != null) {
                 result.add(convert(entity));

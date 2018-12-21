@@ -1,6 +1,6 @@
 package by.grodno.vasili.domain.repository;
 
-import java.util.Collection;
+import java.util.List;
 
 import by.grodno.vasili.domain.model.Note;
 import io.reactivex.Completable;
@@ -22,7 +22,7 @@ public interface NoteRepository {
      * Takes all {@link Note}`s from datasource
      * @return list of {@link Note}
      */
-    Single<Collection<Note>> getAll();
+    Single<List<Note>> getAll();
 
     /**
      * Delete one {@link Note} by id

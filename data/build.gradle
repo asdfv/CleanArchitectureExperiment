@@ -35,17 +35,11 @@ dependencies {
     implementation project(':domain')
 
     implementation 'com.google.firebase:firebase-admin:6.6.0'
-
     implementation "com.jakewharton.timber:timber:${timberVersion}"
-
     implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     implementation 'commons-collections:commons-collections:3.2.2'
-
-    implementation 'org.apache.commons:commons-lang3:3.8.1'
-
-
+    implementation "org.apache.commons:commons-lang3:${apacheCommonLangVersion}"
     annotationProcessor 'com.google.auto.value:auto-value:1.4'
-
     implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

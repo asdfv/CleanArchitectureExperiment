@@ -1,10 +1,10 @@
-package by.grodno.vasili.presentation.screen.notes;
+package by.grodno.vasili.presentation.feature.notes;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -15,14 +15,16 @@ import timber.log.Timber;
 
 public class NotesViewModel extends ViewModel {
     private final GetNotesListUseCase useCase;
-    private MutableLiveData<Collection<Note>> notesLiveData;
+    private final NotesMapper mapper;
+    private MutableLiveData<List<NoteItem>> notesLiveData;
 
     @Inject
-    NotesViewModel(GetNotesListUseCase useCase) {
+    NotesViewModel(GetNotesListUseCase useCase, NotesMapper mapper) {
         this.useCase = useCase;
+        this.mapper = mapper;
     }
 
-    LiveData<Collection<Note>> getNotesLiveData() {
+    LiveData<List<NoteItem>> getNotesLiveData() {
         if (notesLiveData == null) {
             notesLiveData = new MutableLiveData<>();
             loadNotesAsync();
@@ -31,10 +33,10 @@ public class NotesViewModel extends ViewModel {
     }
 
     private void loadNotesAsync() {
-        DisposableSingleObserver<Collection<Note>> observer = new DisposableSingleObserver<Collection<Note>>() {
+        DisposableSingleObserver<List<Note>> observer = new DisposableSingleObserver<List<Note>>() {
             @Override
-            public void onSuccess(Collection<Note> receivedNotes) {
-                notesLiveData.setValue(receivedNotes);
+            public void onSuccess(List<Note> receivedNotes) {
+                notesLiveData.setValue(mapper.convert(receivedNotes));
             }
 
             @Override

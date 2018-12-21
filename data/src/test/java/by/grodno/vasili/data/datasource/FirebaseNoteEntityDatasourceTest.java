@@ -2,7 +2,9 @@ package by.grodno.vasili.data.datasource;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 
 import java.util.Collection;
 

@@ -1,6 +1,6 @@
 package by.grodno.vasili.domain.interactor;
 
-import java.util.Collection;
+import java.util.List;
 
 import by.grodno.vasili.domain.executor.PostExecutionThread;
 import by.grodno.vasili.domain.executor.SubscriberThread;
@@ -11,7 +11,7 @@ import io.reactivex.Single;
 /**
  * Use case retrieving notes list from repository
  */
-public class GetNotesListUseCase extends UseCase<Collection<Note>, Void> {
+public class GetNotesListUseCase extends UseCase<List<Note>, Void> {
     private final NoteRepository repository;
 
     public GetNotesListUseCase(SubscriberThread subscriberThread, PostExecutionThread postExecutionThread, NoteRepository repository) {
@@ -20,7 +20,7 @@ public class GetNotesListUseCase extends UseCase<Collection<Note>, Void> {
     }
 
     @Override
-    Single<Collection<Note>> buildObservableForUseCase(Void noParams) {
+    Single<List<Note>> buildObservableForUseCase(Void noParams) {
         return repository.getAll();
     }
 }
