@@ -10,16 +10,18 @@ import javax.inject.Inject;
 
 import by.grodno.vasili.domain.interactor.GetNotesListUseCase;
 import by.grodno.vasili.domain.model.Note;
+import by.grodno.vasili.presentation.model.NoteItem;
+import by.grodno.vasili.presentation.model.NoteItemMapper;
 import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
 public class NotesViewModel extends ViewModel {
     private final GetNotesListUseCase useCase;
-    private final NotesMapper mapper;
+    private final NoteItemMapper mapper;
     private MutableLiveData<List<NoteItem>> notesLiveData;
 
     @Inject
-    NotesViewModel(GetNotesListUseCase useCase, NotesMapper mapper) {
+    NotesViewModel(GetNotesListUseCase useCase, NoteItemMapper mapper) {
         this.useCase = useCase;
         this.mapper = mapper;
     }

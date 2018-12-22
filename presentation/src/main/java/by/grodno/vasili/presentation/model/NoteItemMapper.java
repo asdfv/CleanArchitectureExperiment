@@ -1,4 +1,4 @@
-package by.grodno.vasili.presentation.feature.notes;
+package by.grodno.vasili.presentation.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,10 +16,10 @@ import by.grodno.vasili.domain.model.Note;
  * Mapper class used to convert {@link Note} from Domain layer to
  * {@link NoteItem} in Presentation layer
  */
-class NotesMapper {
+public class NoteItemMapper {
 
     @Inject
-    NotesMapper() {
+    NoteItemMapper() {
     }
 
     /**
@@ -37,7 +37,7 @@ class NotesMapper {
      * Convert list of {@link Note}
      */
     @NonNull
-    List<NoteItem> convert(List<Note> notes) {
+    public List<NoteItem> convert(List<Note> notes) {
         List<NoteItem> items = new ArrayList<>();
         if (CollectionUtils.isEmpty(notes)) {
             return items;

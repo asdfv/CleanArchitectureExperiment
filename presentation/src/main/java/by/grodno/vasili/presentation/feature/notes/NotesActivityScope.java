@@ -1,4 +1,4 @@
-package by.grodno.vasili.presentation.dagger.scopes;
+package by.grodno.vasili.presentation.feature.notes;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
