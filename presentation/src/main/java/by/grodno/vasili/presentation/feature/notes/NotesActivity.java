@@ -25,12 +25,14 @@ public class NotesActivity extends DaggerAppCompatActivity {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
+    @Inject
+    NotesAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
         NotesViewModel model = ViewModelProviders.of(this, viewModelFactory).get(NotesViewModel.class);
-        NotesAdapter adapter = new NotesAdapter();
         LiveData<List<NoteItem>> notes = model.getNotesLiveData();
         notes.observe(this, adapter::setNotes);
 
