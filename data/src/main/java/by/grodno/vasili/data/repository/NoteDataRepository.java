@@ -79,6 +79,6 @@ public class NoteDataRepository implements NoteRepository {
 
     @Override
     public Single<String> insert(Note note) {
-        return null;
+        return datasource.insert(mapper.convert(note));
     }
 }

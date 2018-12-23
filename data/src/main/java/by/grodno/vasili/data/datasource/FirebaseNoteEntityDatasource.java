@@ -14,13 +14,9 @@ import java.util.Collection;
 
 import by.grodno.vasili.data.entity.NoteEntity;
 import by.grodno.vasili.data.entity.mapper.NoteEntityDataMapper;
-import by.grodno.vasili.data.error.DeletingError;
-import by.grodno.vasili.data.error.SavingError;
 import by.grodno.vasili.data.util.SingleValueOnSubscribe;
-import by.grodno.vasili.domain.error.NotFoundError;
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.exceptions.Exceptions;
 import timber.log.Timber;
 
 /**
@@ -56,7 +52,7 @@ public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
                 .map(snapshot -> {
                     NoteEntity entity = mapper.convert(snapshot);
                     if (entity == null) {
-                        throw Exceptions.propagate(new NotFoundError("Not found entity with id = " + id));
+                        throw new RuntimeException("Error converting entity with id = " + id);
                     }
                     return entity;
                 });
@@ -77,7 +73,7 @@ public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
                 if (error == null) {
                     observer.onComplete();
                 } else {
-                    observer.onError(new DeletingError(error.getDetails()));
+                    observer.onError(error.toException());
                 }
             }
             ));
@@ -92,7 +88,7 @@ public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
                 if (error == null) {
                     observer.onSuccess(ref.getKey());
                 } else {
-                    observer.onError(new SavingError(error.getMessage()));
+                    observer.onError(error.toException());
                 }
             });
         });

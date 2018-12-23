@@ -17,7 +17,7 @@ public abstract class NotesActivityModule {
 
     @Provides
     @NotesActivityScope
-    static GetNotesListUseCase provideUserCase(UIThread uiThread, IOThread ioThread, NoteDataRepository repository) {
+    static GetNotesListUseCase provideUseCase(UIThread uiThread, IOThread ioThread, NoteDataRepository repository) {
         return new GetNotesListUseCase(ioThread, uiThread, repository);
     }
 

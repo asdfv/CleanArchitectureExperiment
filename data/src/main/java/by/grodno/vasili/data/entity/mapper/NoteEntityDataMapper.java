@@ -26,7 +26,7 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
  */
 public class NoteEntityDataMapper {
     /**
-     * Transform a {@link DataSnapshot} into an {@link NoteEntity}.
+     * Convert a {@link DataSnapshot} into an {@link NoteEntity}.
      */
     @Nullable
     public NoteEntity convert(DataSnapshot snapshot) {
@@ -45,7 +45,7 @@ public class NoteEntityDataMapper {
     }
 
     /**
-     * Transform a {@link DataSnapshot} into a Collection of {@link NoteEntity}.
+     * Convert a {@link DataSnapshot} into a Collection of {@link NoteEntity}.
      */
     @NonNull
     public Collection<NoteEntity> convertToCollection(DataSnapshot snapshot) {
@@ -66,7 +66,7 @@ public class NoteEntityDataMapper {
     }
 
     /**
-     * Transform a {@link NoteEntity} into an {@link Note}.
+     * Convert a {@link NoteEntity} into an {@link Note}.
      */
     @Nullable
     public Note convert(NoteEntity entity) {
@@ -78,7 +78,7 @@ public class NoteEntityDataMapper {
     }
 
     /**
-     * Transform a collection of {@link NoteEntity} into an collection of {@link Note}.
+     * Convert a collection of {@link NoteEntity} into an collection of {@link Note}.
      */
     @NonNull
     public List<Note> convert(Collection<NoteEntity> entities) {
@@ -89,6 +89,17 @@ public class NoteEntityDataMapper {
             }
         }
         return result;
+    }
+
+    /**
+     * Convert {@link NoteEntity} to {@link Note}
+     */
+    @Nullable
+    public NoteEntity convert(Note note) {
+        if (note == null) {
+            return null;
+        }
+        return new NoteEntity(note.id, note.title, note.description);
     }
 
     private Map<String, NoteEntity> getNoteEntitiesMap(DataSnapshot snapshot) {

@@ -58,16 +58,13 @@ public class FirebaseNoteEntityDatasourceTest {
     }
 
     @Test()
-    public void readOneInNotFound() {
+    public void readOneIfNotFound() {
         TestObserver<NoteEntity> testObserver = database.one("fake id").test();
         testObserver.awaitTerminalEvent();
         testObserver.assertError(RuntimeException.class);
     }
 
     private static NoteEntity createNote() {
-        NoteEntity result = new NoteEntity();
-        result.title = "test";
-        result.description = TEST_DESCRIPTION;
-        return result;
+        return new NoteEntity(null, "test", TEST_DESCRIPTION);
     }
 }

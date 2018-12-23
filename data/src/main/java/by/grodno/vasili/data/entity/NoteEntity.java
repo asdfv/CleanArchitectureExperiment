@@ -11,6 +11,16 @@ public final class NoteEntity {
     public String title;
     public String description;
 
+    @SuppressWarnings("unused")
+    public NoteEntity() {
+    }
+
+    public NoteEntity(String id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "NoteEntity{" +
