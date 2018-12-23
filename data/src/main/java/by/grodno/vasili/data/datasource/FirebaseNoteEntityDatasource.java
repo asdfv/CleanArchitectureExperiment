@@ -16,6 +16,7 @@ import by.grodno.vasili.data.entity.NoteEntity;
 import by.grodno.vasili.data.entity.mapper.NoteEntityDataMapper;
 import by.grodno.vasili.data.util.SingleValueOnSubscribe;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import timber.log.Timber;
 
@@ -80,18 +81,20 @@ public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
         });
     }
 
+    // TODO: fake data
     @Override
     public Single<String> insert(NoteEntity noteEntity) {
-        return Single.create(observer -> {
-            DatabaseReference noteRef = database.getReference(NOTES_PATH);
-            noteRef.push().setValue(noteEntity, (error, ref) -> {
-                if (error == null) {
-                    observer.onSuccess(ref.getKey());
-                } else {
-                    observer.onError(error.toException());
-                }
-            });
-        });
+        return Single.fromObservable(Observable.just("TestInsertID"));
+//        return Single.create(observer -> {
+//            DatabaseReference noteRef = database.getReference(NOTES_PATH);
+//            noteRef.push().setValue(noteEntity, (error, ref) -> {
+//                if (error == null) {
+//                    observer.onSuccess(ref.getKey());
+//                } else {
+//                    observer.onError(error.toException());
+//                }
+//            });
+//        });
     }
 
     private FirebaseDatabase initFirebase() {
