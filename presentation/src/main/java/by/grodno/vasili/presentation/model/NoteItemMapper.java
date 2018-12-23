@@ -11,11 +11,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 import by.grodno.vasili.domain.model.Note;
+import by.grodno.vasili.presentation.feature.notes.NotesActivityScope;
 
 /**
  * Mapper class used to convert {@link Note} from Domain layer to
  * {@link NoteItem} in Presentation layer
  */
+@NotesActivityScope
 public class NoteItemMapper {
 
     @Inject
