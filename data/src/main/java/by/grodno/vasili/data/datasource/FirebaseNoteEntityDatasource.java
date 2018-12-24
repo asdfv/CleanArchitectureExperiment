@@ -14,9 +14,9 @@ import java.util.Collection;
 
 import by.grodno.vasili.data.entity.NoteEntity;
 import by.grodno.vasili.data.entity.mapper.NoteEntityDataMapper;
+import by.grodno.vasili.data.util.FirebaseUtils;
 import by.grodno.vasili.data.util.SingleValueOnSubscribe;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import timber.log.Timber;
 
@@ -24,7 +24,7 @@ import timber.log.Timber;
  * {@link NoteEntityDatasource} implementation for work with Firebase realtime database
  */
 public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
-    private static final String NOTES_PATH = "notes/";
+    private static final String NOTES_PATH = "notes";
     private static final String DATABASE_URL = "https://cleanarchitectureexperiment.firebaseio.com/";
     private static final String KEY_STRING = "{\n" +
             "  \"type\": \"service_account\",\n" +
@@ -84,7 +84,7 @@ public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
     // TODO: fake data
     @Override
     public Single<String> insert(NoteEntity noteEntity) {
-        return Single.fromObservable(Observable.just(noteEntity.toString()));
+//        return Single.fromObservable(Observable.just(noteEntity.toString()));
 //        return Single.create(observer -> {
 //            DatabaseReference noteRef = database.getReference(NOTES_PATH);
 //            noteRef.push().setValue(noteEntity, (error, ref) -> {
@@ -95,6 +95,9 @@ public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
 //                }
 //            });
 //        });
+//        return FirebaseUtils.observeSingleValueEvent()
+        DatabaseReference noteRef = database.getReference(NOTES_PATH);
+        return FirebaseUtils.pushAndSetValue(noteRef, noteEntity);
     }
 
     private FirebaseDatabase initFirebase() {
