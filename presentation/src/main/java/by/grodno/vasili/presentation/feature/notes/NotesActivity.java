@@ -14,11 +14,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import by.grodno.vasili.presentation.R;
+import by.grodno.vasili.presentation.feature.common.BaseActivity;
 import by.grodno.vasili.presentation.feature.note.NoteActivity;
 import by.grodno.vasili.presentation.model.NoteItem;
-import dagger.android.support.DaggerAppCompatActivity;
 
-public class NotesActivity extends DaggerAppCompatActivity {
+public class NotesActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private FloatingActionButton floatingButton;
 

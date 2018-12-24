@@ -19,7 +19,7 @@ public class NoteViewModel extends ViewModel {
         this.useCase = useCase;
     }
 
-    void saveNoteAsync(Consumer<String> action) {
+    void saveNoteAsync(Note note, Consumer<String> action, Consumer<Throwable> onError) {
         DisposableSingleObserver<String> observer = new DisposableSingleObserver<String>() {
             @Override
             public void onSuccess(String savedId) {
@@ -30,9 +30,9 @@ public class NoteViewModel extends ViewModel {
             @Override
             public void onError(Throwable e) {
                 Timber.e(e, "Error executing use case");
+                onError.accept(e);
             }
         };
-        Note note = new Note(null, "Title", "Desc");
         useCase.execute(observer, SaveNoteUseCase.Params.create(note));
     }
 
