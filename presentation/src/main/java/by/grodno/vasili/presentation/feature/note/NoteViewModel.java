@@ -2,6 +2,8 @@ package by.grodno.vasili.presentation.feature.note;
 
 import android.arch.lifecycle.ViewModel;
 
+import com.annimon.stream.function.Consumer;
+
 import javax.inject.Inject;
 
 import by.grodno.vasili.domain.interactor.SaveNoteUseCase;
@@ -17,11 +19,12 @@ public class NoteViewModel extends ViewModel {
         this.useCase = useCase;
     }
 
-    void saveNoteAsync() {
+    void saveNoteAsync(Consumer<String> action) {
         DisposableSingleObserver<String> observer = new DisposableSingleObserver<String>() {
             @Override
             public void onSuccess(String savedId) {
                 Timber.d("Saved id is: " + savedId);
+                action.accept(savedId);
             }
 
             @Override

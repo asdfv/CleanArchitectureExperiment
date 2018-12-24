@@ -3,6 +3,8 @@ package by.grodno.vasili.data.entity.mapper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.GenericTypeIndicator;
@@ -19,7 +21,7 @@ import timber.log.Timber;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
-
+// TODO: Use streams from Lightweight-Stream-API
 /**
  * Mapper class used to transform Firebase {@link DataSnapshot} to {@link NoteEntity}
  * from data layer and {@link Note} in the domain layer.
@@ -82,13 +84,10 @@ public class NoteEntityDataMapper {
      */
     @NonNull
     public List<Note> convert(Collection<NoteEntity> entities) {
-        List<Note> result = new LinkedList<>();
-        for (NoteEntity entity : entities) {
-            if (entity != null) {
-                result.add(convert(entity));
-            }
-        }
-        return result;
+        return Stream.of(entities)
+                .withoutNulls()
+                .map(this::convert)
+                .collect(Collectors.toList());
     }
 
     /**

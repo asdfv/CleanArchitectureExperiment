@@ -84,7 +84,7 @@ public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
     // TODO: fake data
     @Override
     public Single<String> insert(NoteEntity noteEntity) {
-        return Single.fromObservable(Observable.just("TestInsertID"));
+        return Single.fromObservable(Observable.just(noteEntity.toString()));
 //        return Single.create(observer -> {
 //            DatabaseReference noteRef = database.getReference(NOTES_PATH);
 //            noteRef.push().setValue(noteEntity, (error, ref) -> {
