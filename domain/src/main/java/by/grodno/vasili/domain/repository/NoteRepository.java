@@ -4,6 +4,7 @@ import java.util.List;
 
 import by.grodno.vasili.domain.model.Note;
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 /**
@@ -16,7 +17,7 @@ public interface NoteRepository {
      * @param id {@link Note} identifier
      * @return Single observable {@link Note}
      */
-    Single<Note> getOne(String id);
+    Maybe<Note> getOne(String id);
 
     /**
      * Takes all {@link Note}`s from datasource

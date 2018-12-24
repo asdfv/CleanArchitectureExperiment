@@ -4,6 +4,8 @@ import android.app.Application;
 import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import javax.inject.Singleton;
 
 import by.grodno.vasili.data.datasource.FirebaseNoteEntityDatasource;
@@ -43,7 +45,8 @@ abstract class AppModule {
     @Singleton
     static NoteDataRepository provideNoteDataRepository() {
         NoteEntityDataMapper mapper = new NoteEntityDataMapper();
-        NoteEntityDatasource datasource = new FirebaseNoteEntityDatasource(mapper);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        NoteEntityDatasource datasource = new FirebaseNoteEntityDatasource(mapper, database);
         return new NoteDataRepository(datasource, mapper);
     }
 }

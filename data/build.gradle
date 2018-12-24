@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 28
@@ -10,7 +9,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -31,8 +29,7 @@ dependencies {
 
     implementation project(':domain')
 
-    implementation 'com.firebase:firebase-client-android:2.5.2' // TODO: try remove
-    implementation 'com.google.firebase:firebase-admin:6.6.0'
+    implementation 'com.google.firebase:firebase-database:16.0.5'
     implementation "com.annimon:stream:${comAnnimonStreamVersion}"
     implementation "com.jakewharton.timber:timber:${timberVersion}"
     implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
@@ -41,6 +38,8 @@ dependencies {
     annotationProcessor 'com.google.auto.value:auto-value:1.4'
     implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.23.4'
+    androidTestImplementation 'org.mockito:mockito-android:2.22.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import by.grodno.vasili.data.entity.NoteEntity;
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 /**
@@ -19,7 +20,7 @@ public interface NoteEntityDatasource {
     /**
      * Take by id
      */
-    Single<NoteEntity> one(String id);
+    Maybe<NoteEntity> one(String id);
 
     /**
      * Delete by id
@@ -27,7 +28,8 @@ public interface NoteEntityDatasource {
     Completable delete(String id);
 
     /**
-     * Save one
+     * Save one {@link NoteEntity}
+     * @return Single observable assigned id
      */
     Single<String> insert(NoteEntity noteEntity);
 }

@@ -1,14 +1,15 @@
 package by.grodno.vasili.data.repository;
 
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import by.grodno.vasili.data.datasource.NoteEntityDatasource;
+import by.grodno.vasili.data.entity.NoteEntity;
 import by.grodno.vasili.data.entity.mapper.NoteEntityDataMapper;
 import by.grodno.vasili.domain.model.Note;
 import by.grodno.vasili.domain.repository.NoteRepository;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 /**
@@ -25,51 +26,14 @@ public class NoteDataRepository implements NoteRepository {
     }
 
     @Override
-    public Single<Note> getOne(String id) {
+    public Maybe<Note> getOne(String id) {
         return datasource.one(id).map(mapper::convert);
     }
 
-    // TODO: Replace fake data
     @Override
     public Single<List<Note>> getAll() {
-//        Single<Collection<NoteEntity>> noteEntities = datasource.all();
-//        return noteEntities.map(mapper::convert);
-        return Single.fromObservable(Observable.just(Arrays.asList(
-                new Note("1", "title1", "desc1"),
-                new Note("2", "title2", "desc2"),
-                new Note("3", "title3", "desc3"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("4", "title4", "desc4"),
-                new Note("5", "title5", "desc5")
-        )));
+        Single<Collection<NoteEntity>> noteEntities = datasource.all();
+        return noteEntities.map(mapper::convert);
     }
 
     @Override

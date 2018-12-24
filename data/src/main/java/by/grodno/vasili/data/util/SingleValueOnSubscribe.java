@@ -1,5 +1,7 @@
 package by.grodno.vasili.data.util;
 
+import android.support.annotation.NonNull;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -20,14 +22,14 @@ public class SingleValueOnSubscribe implements SingleOnSubscribe<DataSnapshot> {
     public void subscribe(SingleEmitter<DataSnapshot> emitter) {
         ValueEventListener listener = new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!emitter.isDisposed()) {
                     emitter.onSuccess(dataSnapshot);
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 if (!emitter.isDisposed()) {
                     emitter.onError(databaseError.toException());
                 }

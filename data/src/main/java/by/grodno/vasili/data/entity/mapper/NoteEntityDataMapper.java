@@ -22,6 +22,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 // TODO: Use streams from Lightweight-Stream-API
+
 /**
  * Mapper class used to transform Firebase {@link DataSnapshot} to {@link NoteEntity}
  * from data layer and {@link Note} in the domain layer.
@@ -32,12 +33,11 @@ public class NoteEntityDataMapper {
      */
     @Nullable
     public NoteEntity convert(DataSnapshot snapshot) {
-        if (!snapshot.exists()) {
-            Timber.d("Empty snapshot");
-            return null;
-        }
         try {
             NoteEntity noteEntity = snapshot.getValue(NoteEntity.class);
+            if (noteEntity == null) {
+                throw new RuntimeException("Error converting Snapshot to NoteEntity");
+            }
             noteEntity.id = snapshot.getKey();
             return noteEntity;
         } catch (DatabaseException e) {
