@@ -15,9 +15,9 @@ import by.grodno.vasili.presentation.R;
 import by.grodno.vasili.presentation.feature.common.BaseActivity;
 
 import static org.apache.commons.lang3.StringUtils.isNoneBlank;
+import static org.apache.commons.lang3.StringUtils.trim;
 
 public class NoteActivity extends BaseActivity {
-
     private EditText titleInput;
     private EditText descriptionInput;
     private ImageView closeImage;
@@ -38,8 +38,8 @@ public class NoteActivity extends BaseActivity {
     private void setListeners(NoteViewModel model) {
         closeImage.setOnClickListener(view -> finish());
         checkImage.setOnClickListener(view -> {
-                    String title = titleInput.getText().toString();
-                    String description = descriptionInput.getText().toString();
+                    String title = trim(titleInput.getText().toString());
+                    String description = trim(descriptionInput.getText().toString());
                     if (validate(title, description)) {
                         Consumer<String> onSuccess = id -> {
                             showToast("Successfully saved " + id);

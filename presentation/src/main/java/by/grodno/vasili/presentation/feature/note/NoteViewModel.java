@@ -23,7 +23,6 @@ public class NoteViewModel extends ViewModel {
         DisposableSingleObserver<String> observer = new DisposableSingleObserver<String>() {
             @Override
             public void onSuccess(String savedId) {
-                Timber.d("Saved id is: " + savedId);
                 action.accept(savedId);
             }
 
