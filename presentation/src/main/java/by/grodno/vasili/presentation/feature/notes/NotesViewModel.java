@@ -30,6 +30,11 @@ public class NotesViewModel extends ViewModel {
         this.mapper = mapper;
     }
 
+    /**
+     * Init {@link LiveData} if needed and run loading data for her from repository
+     *
+     * @return LiveData instance
+     */
     LiveData<List<NoteItem>> getNotesLiveData() {
         if (notesLiveData == null) {
             notesLiveData = new MutableLiveData<>();
@@ -38,6 +43,13 @@ public class NotesViewModel extends ViewModel {
         return notesLiveData;
     }
 
+    /**
+     * Remove note from repository by and update {@link LiveData}
+     *
+     * @param id        identifier
+     * @param position  in recycler view
+     * @param onSuccess success callback
+     */
     void removeNoteAsync(String id, int position, Runnable onSuccess) {
         DisposableCompletableObserver observer = new DisposableCompletableObserver() {
             @Override
@@ -56,6 +68,13 @@ public class NotesViewModel extends ViewModel {
             }
         };
         deleteNoteUseCase.execute(observer, DeleteNoteUseCase.Params.create(id));
+    }
+
+    /**
+     * Reload {@link LiveData}
+     */
+    void reloadData() {
+        loadNotesAsync();
     }
 
     private void loadNotesAsync() {

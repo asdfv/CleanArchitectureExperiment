@@ -1,7 +1,9 @@
 package by.grodno.vasili.presentation.feature.note;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,6 +21,7 @@ import static org.apache.commons.lang3.StringUtils.isNoneBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
 
 public class NoteActivity extends BaseActivity {
+    public static final String NOTE_SAVED = "by.grodno.vasili.presentation.feature.note.EXTRA.NOTE_SAVED";
     private EditText titleInput;
     private EditText descriptionInput;
     private ImageView closeImage;
@@ -44,6 +47,9 @@ public class NoteActivity extends BaseActivity {
                     if (validate(title, description)) {
                         Consumer<String> onSuccess = id -> {
                             showToast("Successfully saved " + id);
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra(NOTE_SAVED, true);
+                            setResult(Activity.RESULT_OK, resultIntent);
                             finish();
                         };
                         Consumer<Throwable> onError = error -> {

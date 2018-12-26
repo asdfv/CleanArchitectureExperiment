@@ -10,6 +10,9 @@ import by.grodno.vasili.domain.interactor.SaveNoteUseCase;
 import by.grodno.vasili.domain.model.Note;
 import io.reactivex.observers.DisposableSingleObserver;
 
+/**
+ * View model for activity with add note functionality
+ */
 public class NoteViewModel extends ViewModel {
     private final SaveNoteUseCase useCase;
 
@@ -18,11 +21,18 @@ public class NoteViewModel extends ViewModel {
         this.useCase = useCase;
     }
 
-    void saveNoteAsync(Note note, Consumer<String> action, Consumer<Throwable> onError) {
+    /**
+     * Save one note to repository
+     *
+     * @param note      to save
+     * @param onSuccess - success callback
+     * @param onError   - error callback
+     */
+    void saveNoteAsync(Note note, Consumer<String> onSuccess, Consumer<Throwable> onError) {
         DisposableSingleObserver<String> observer = new DisposableSingleObserver<String>() {
             @Override
             public void onSuccess(String savedId) {
-                action.accept(savedId);
+                onSuccess.accept(savedId);
             }
 
             @Override
