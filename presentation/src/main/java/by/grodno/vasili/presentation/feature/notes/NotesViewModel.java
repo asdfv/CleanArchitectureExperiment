@@ -17,6 +17,9 @@ import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
+/**
+ * View model for activity witch present list of notes
+ */
 public class NotesViewModel extends ViewModel {
     private final GetNotesListUseCase getNotesListUseCase;
     private final DeleteNoteUseCase deleteNoteUseCase;

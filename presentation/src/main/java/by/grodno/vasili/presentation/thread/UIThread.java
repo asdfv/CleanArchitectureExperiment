@@ -9,10 +9,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 /**
  * Main thread for executing process for UI
  */
-public class
-UIThread implements PostExecutionThread {
+public class UIThread implements PostExecutionThread {
     @Inject
-    public UIThread() {
+    UIThread() {
     }
 
     @Override

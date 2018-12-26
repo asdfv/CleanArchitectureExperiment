@@ -20,6 +20,9 @@ import timber.log.Timber;
 import static org.apache.commons.lang3.StringUtils.isNoneBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
 
+/**
+ * Activity for add note functionality
+ */
 public class NoteActivity extends BaseActivity {
     public static final String NOTE_SAVED = "by.grodno.vasili.presentation.feature.note.EXTRA.NOTE_SAVED";
     private EditText titleInput;

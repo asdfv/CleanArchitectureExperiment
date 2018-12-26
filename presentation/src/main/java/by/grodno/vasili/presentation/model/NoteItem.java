@@ -8,7 +8,7 @@ public class NoteItem {
     public String title;
     public String description;
 
-    public NoteItem(String id, String title, String description) {
+    NoteItem(String id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;

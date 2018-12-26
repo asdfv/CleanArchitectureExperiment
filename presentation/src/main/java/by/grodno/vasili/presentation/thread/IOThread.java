@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class IOThread implements SubscriberThread {
     @Inject
-    public IOThread() {
+    IOThread() {
     }
 
     @Override

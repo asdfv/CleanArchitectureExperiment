@@ -22,6 +22,9 @@ import by.grodno.vasili.presentation.feature.common.BaseActivity;
 import by.grodno.vasili.presentation.feature.note.NoteActivity;
 import by.grodno.vasili.presentation.model.NoteItem;
 
+/**
+ * Activity for present list of notes
+ */
 public class NotesActivity extends BaseActivity {
     private static final int ADD_NOTE_REQUEST_CODE = 1;
     private RecyclerView recyclerView;
