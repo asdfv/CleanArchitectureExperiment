@@ -38,7 +38,7 @@ public class NotesViewModel extends ViewModel {
     LiveData<List<NoteItem>> getNotesLiveData() {
         if (notesLiveData == null) {
             notesLiveData = new MutableLiveData<>();
-            loadNotesAsync();
+            reloadData();
         }
         return notesLiveData;
     }
@@ -71,22 +71,31 @@ public class NotesViewModel extends ViewModel {
     }
 
     /**
+     * Reload {@link LiveData} with callback
+     */
+    void reloadData(Runnable onComplete) {
+        loadNotesAsync(onComplete);
+    }
+
+    /**
      * Reload {@link LiveData}
      */
     void reloadData() {
-        loadNotesAsync();
+        loadNotesAsync(() -> {});
     }
 
-    private void loadNotesAsync() {
+    private void loadNotesAsync(Runnable onComplete) {
         DisposableSingleObserver<List<Note>> observer = new DisposableSingleObserver<List<Note>>() {
             @Override
             public void onSuccess(List<Note> receivedNotes) {
                 notesLiveData.setValue(mapper.convert(receivedNotes));
+                onComplete.run();
             }
 
             @Override
             public void onError(Throwable e) {
                 Timber.e(e, "Error executing use case for get all notes");
+                onComplete.run();
             }
         };
         getNotesListUseCase.execute(observer, null);

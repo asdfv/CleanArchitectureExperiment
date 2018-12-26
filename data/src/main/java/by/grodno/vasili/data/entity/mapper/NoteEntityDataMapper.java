@@ -59,20 +59,6 @@ public class NoteEntityDataMapper {
                     return entity;
                 })
                 .toList();
-//        if (!snapshot.exists()) {
-//            Timber.d("Empty snapshot");
-//            return emptyList();
-//        }
-//        Map<String, NoteEntity> map = getNoteEntitiesMap(snapshot);
-//        Collection<NoteEntity> result = new LinkedList<>();
-//        for (Map.Entry<String, NoteEntity> entry : map.entrySet()) {
-//            NoteEntity entity = entry.getValue();
-//            if (entity != null) {
-//                entity.id = entry.getKey();
-//                result.add(entity);
-//            }
-//        }
-//        return result;
     }
 
     /**

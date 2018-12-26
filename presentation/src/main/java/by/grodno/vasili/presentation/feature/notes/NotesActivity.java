@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -26,6 +27,7 @@ public class NotesActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private FloatingActionButton floatingButton;
     private NotesViewModel model;
+    private SwipeRefreshLayout swipeContainer;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -40,8 +42,7 @@ public class NotesActivity extends BaseActivity {
         model = ViewModelProviders.of(this, viewModelFactory).get(NotesViewModel.class);
         LiveData<List<NoteItem>> notes = model.getNotesLiveData();
         notes.observe(this, adapter::setNotes);
-        findAndSetupRecyclerView(adapter);
-        findAndSetupFloatingButton();
+        findAndSetupViews();
         setupSwipeToDelete();
     }
 
@@ -79,13 +80,23 @@ public class NotesActivity extends BaseActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    private void findAndSetupViews() {
+        findAndSetupFloatingButton();
+        findAndSetupRecyclerView();
+        findAndSetupSwipeContainer();
+    }
 
     private void findAndSetupFloatingButton() {
         floatingButton = findViewById(R.id.fab);
         floatingButton.setOnClickListener(view -> startActivityForResult(new Intent(this, NoteActivity.class), ADD_NOTE_REQUEST_CODE));
     }
 
-    private void findAndSetupRecyclerView(NotesAdapter adapter) {
+    private void findAndSetupSwipeContainer() {
+        swipeContainer = findViewById(R.id.swipe_container);
+        swipeContainer.setOnRefreshListener(() -> model.reloadData(() -> swipeContainer.setRefreshing(false)));
+    }
+
+    private void findAndSetupRecyclerView() {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
