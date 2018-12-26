@@ -29,6 +29,7 @@ public interface NoteEntityDatasource {
 
     /**
      * Save one {@link NoteEntity}
+     *
      * @return Single observable assigned id
      */
     Single<String> insert(NoteEntity noteEntity);
