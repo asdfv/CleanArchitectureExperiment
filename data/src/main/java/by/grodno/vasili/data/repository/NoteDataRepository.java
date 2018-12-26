@@ -38,7 +38,7 @@ public class NoteDataRepository implements NoteRepository {
 
     @Override
     public Completable delete(String id) {
-        return null;
+        return datasource.delete(id);
     }
 
     @Override

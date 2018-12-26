@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -14,14 +15,12 @@ import javax.inject.Inject;
 import by.grodno.vasili.presentation.R;
 import by.grodno.vasili.presentation.model.NoteItem;
 
-import static java.util.Collections.emptyList;
-
 /**
  * Adapter for notes recycler view
  */
 @NotesActivityScope
 class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
-    private List<NoteItem> notes = emptyList();
+    private List<NoteItem> notes = new ArrayList<>();
 
     @Inject
     NotesAdapter() {
@@ -29,8 +28,14 @@ class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
     public void setNotes(List<NoteItem> notes) {
         this.notes = notes;
-        // TODO: Heavy operation
         notifyDataSetChanged();
+    }
+
+    /**
+     * Get item in recycler view by position
+     */
+    NoteItem getItem(int position) {
+        return notes.get(position);
     }
 
     @NonNull

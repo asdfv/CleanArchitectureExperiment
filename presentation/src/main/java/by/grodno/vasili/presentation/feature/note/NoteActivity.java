@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import by.grodno.vasili.domain.model.Note;
 import by.grodno.vasili.presentation.R;
 import by.grodno.vasili.presentation.feature.common.BaseActivity;
+import timber.log.Timber;
 
 import static org.apache.commons.lang3.StringUtils.isNoneBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
@@ -47,6 +48,7 @@ public class NoteActivity extends BaseActivity {
                         };
                         Consumer<Throwable> onError = error -> {
                             showToast("Saving error " + error.getLocalizedMessage());
+                            Timber.e(error, "Error executing use case");
                             finish();
                         };
                         Note note = new Note(null, title, description);

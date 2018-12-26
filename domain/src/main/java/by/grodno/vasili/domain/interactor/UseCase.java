@@ -1,33 +1,16 @@
 package by.grodno.vasili.domain.interactor;
 
-import by.grodno.vasili.domain.executor.PostExecutionThread;
-import by.grodno.vasili.domain.executor.SubscriberThread;
-import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableSingleObserver;
+
 
 /**
  * Abstract class for a Use Case.
- * This interface represents a execution unit for different use cases.
  */
-public abstract class UseCase<T, Param> {
-    private final CompositeDisposable disposables;
-    private final PostExecutionThread postExecutionThread;
-    private final SubscriberThread subscriberThread;
-
-    UseCase(PostExecutionThread postExecutionThread, SubscriberThread subscriberThread) {
-        this.subscriberThread = subscriberThread;
-        this.postExecutionThread = postExecutionThread;
-        this.disposables = new CompositeDisposable();
-    }
-
+abstract class UseCase<T, Param> {
     /**
-     * Creating observable for executing use case
-     *
-     * @param params parameters with needed for execute user case
-     * @return Single observable
+     * {@link CompositeDisposable} for cancel pending executions
      */
-    abstract Single<T> buildObservableForUseCase(Param params);
+    abstract CompositeDisposable getDisposables();
 
     /**
      * Execute use case with params and observer
@@ -35,18 +18,14 @@ public abstract class UseCase<T, Param> {
      * @param observer for observing result of execution use case
      * @param params   for executing use case
      */
-    public void execute(DisposableSingleObserver<T> observer, Param params) {
-        final Single<T> observable = buildObservableForUseCase(params)
-                .subscribeOn(subscriberThread.getScheduler())
-                .observeOn(postExecutionThread.getScheduler());
-        disposables.add(observable.subscribeWith(observer));
-    }
+    abstract void execute(T observer, Param params);
 
     /**
      * Dispose execution
      */
     public void dispose() {
-        if (!disposables.isDisposed()) {
+        CompositeDisposable disposables = getDisposables();
+        if (disposables != null && !disposables.isDisposed()) {
             disposables.dispose();
         }
     }

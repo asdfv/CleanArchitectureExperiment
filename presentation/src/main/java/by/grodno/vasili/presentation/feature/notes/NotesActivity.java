@@ -5,9 +5,11 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 
 import java.util.List;
 
@@ -21,6 +23,7 @@ import by.grodno.vasili.presentation.model.NoteItem;
 public class NotesActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private FloatingActionButton floatingButton;
+    private NotesViewModel model;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -32,13 +35,33 @@ public class NotesActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
-        NotesViewModel model = ViewModelProviders.of(this, viewModelFactory).get(NotesViewModel.class);
+        model = ViewModelProviders.of(this, viewModelFactory).get(NotesViewModel.class);
         LiveData<List<NoteItem>> notes = model.getNotesLiveData();
         notes.observe(this, adapter::setNotes);
-
         findAndSetupRecyclerView(adapter);
         findAndSetupFloatingButton();
+        setupSwipeToDelete();
     }
+
+    private void setupSwipeToDelete() {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                int position = viewHolder.getAdapterPosition();
+                String id = adapter.getItem(position).id;
+                Runnable onSuccess = () -> showToast("Successfully removed id = " + id);
+                model.removeNoteAsync(id, position, onSuccess);
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
 
     private void findAndSetupFloatingButton() {
         floatingButton = findViewById(R.id.fab);

@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import by.grodno.vasili.domain.interactor.SaveNoteUseCase;
 import by.grodno.vasili.domain.model.Note;
 import io.reactivex.observers.DisposableSingleObserver;
-import timber.log.Timber;
 
 public class NoteViewModel extends ViewModel {
     private final SaveNoteUseCase useCase;
@@ -28,7 +27,6 @@ public class NoteViewModel extends ViewModel {
 
             @Override
             public void onError(Throwable e) {
-                Timber.e(e, "Error executing use case");
                 onError.accept(e);
             }
         };

@@ -2,22 +2,21 @@ package by.grodno.vasili.domain.interactor;
 
 import by.grodno.vasili.domain.executor.PostExecutionThread;
 import by.grodno.vasili.domain.executor.SubscriberThread;
-import by.grodno.vasili.domain.model.Note;
 import by.grodno.vasili.domain.repository.NoteRepository;
-import io.reactivex.Single;
+import io.reactivex.Completable;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
 
 /**
  * Use case saving Note to repository
  */
-public class SaveNoteUseCase extends UseCase<DisposableSingleObserver<String>, SaveNoteUseCase.Params> {
+public class DeleteNoteUseCase extends UseCase<DisposableCompletableObserver, DeleteNoteUseCase.Params> {
     private final SubscriberThread subscriberThread;
     private final PostExecutionThread postExecutionThread;
     private final NoteRepository repository;
     private final CompositeDisposable disposables;
 
-    public SaveNoteUseCase(SubscriberThread subscriberThread, PostExecutionThread postExecutionThread, NoteRepository repository) {
+    public DeleteNoteUseCase(SubscriberThread subscriberThread, PostExecutionThread postExecutionThread, NoteRepository repository) {
         this.subscriberThread = subscriberThread;
         this.postExecutionThread = postExecutionThread;
         this.repository = repository;
@@ -30,23 +29,22 @@ public class SaveNoteUseCase extends UseCase<DisposableSingleObserver<String>, S
     }
 
     @Override
-    public void execute(DisposableSingleObserver<String> observer, Params params) {
-        final Single<String> observable = repository.insert(params.note)
+    public void execute(DisposableCompletableObserver observer, Params params) {
+        final Completable observable = repository.delete(params.id)
                 .subscribeOn(subscriberThread.getScheduler())
                 .observeOn(postExecutionThread.getScheduler());
         disposables.add(observable.subscribeWith(observer));
     }
 
-
     public static final class Params {
-        private final Note note;
+        private final String id;
 
-        private Params(Note note) {
-            this.note = note;
+        private Params(String id) {
+            this.id = id;
         }
 
-        public static Params create(Note note) {
-            return new Params(note);
+        public static Params create(String id) {
+            return new Params(id);
         }
     }
 }
