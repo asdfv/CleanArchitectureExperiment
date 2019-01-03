@@ -1,11 +1,11 @@
 package by.grodno.vasili.presentation.feature.notes;
 
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import by.grodno.vasili.presentation.R;
+import by.grodno.vasili.presentation.databinding.NoteItemBinding;
 import by.grodno.vasili.presentation.model.NoteItem;
 
 /**
@@ -20,12 +21,16 @@ import by.grodno.vasili.presentation.model.NoteItem;
  */
 @NotesActivityScope
 class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
-    private List<NoteItem> notes = new ArrayList<>();
+    private List<NoteItem> notes;
 
     @Inject
     NotesAdapter() {
+        notes = new ArrayList<>();
     }
 
+    /**
+     * Set new notes for render in recycler view
+     */
     public void setNotes(List<NoteItem> notes) {
         this.notes = notes;
         notifyDataSetChanged();
@@ -48,9 +53,7 @@ class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NoteItem item = notes.get(position);
-        holder.idLabel.setText(item.id);
-        holder.titleLabel.setText(item.title);
-        holder.descriptionLabel.setText(item.description);
+        holder.binding.setNote(item);
     }
 
     @Override
@@ -59,15 +62,11 @@ class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView idLabel;
-        TextView titleLabel;
-        TextView descriptionLabel;
+        NoteItemBinding binding;
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            idLabel = itemView.findViewById(R.id.id_label);
-            titleLabel = itemView.findViewById(R.id.title_label);
-            descriptionLabel = itemView.findViewById(R.id.description_label);
+        ViewHolder(View view) {
+            super(view);
+            binding = DataBindingUtil.bind(view);
         }
     }
 }

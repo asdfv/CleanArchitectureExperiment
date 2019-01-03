@@ -108,5 +108,6 @@ public class NotesViewModel extends ViewModel {
     protected void onCleared() {
         super.onCleared();
         getNotesListUseCase.dispose();
+        deleteNoteUseCase.dispose();
     }
 }
