@@ -18,6 +18,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import by.grodno.vasili.presentation.R;
+import by.grodno.vasili.presentation.databinding.ActivityNotesBinding;
 import by.grodno.vasili.presentation.feature.common.BaseActivity;
 import by.grodno.vasili.presentation.feature.note.NoteActivity;
 import by.grodno.vasili.presentation.model.NoteItem;
@@ -25,7 +26,7 @@ import by.grodno.vasili.presentation.model.NoteItem;
 /**
  * Activity for present list of notes
  */
-public class NotesActivity extends BaseActivity {
+public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
     private static final int ADD_NOTE_REQUEST_CODE = 1;
     private RecyclerView recyclerView;
     private FloatingActionButton floatingButton;
@@ -39,9 +40,8 @@ public class NotesActivity extends BaseActivity {
     NotesAdapter adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes);
         model = ViewModelProviders.of(this, viewModelFactory).get(NotesViewModel.class);
         LiveData<List<NoteItem>> notes = model.getNotesLiveData();
         notes.observe(this, adapter::setNotes);
@@ -50,18 +50,19 @@ public class NotesActivity extends BaseActivity {
     }
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_notes;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_NOTE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             boolean noteSaved = data.getBooleanExtra(NoteActivity.NOTE_SAVED, false);
             if (noteSaved) {
-                updateRecyclerView();
+                model.reloadData();
             }
         }
-    }
-
-    private void updateRecyclerView() {
-        model.reloadData();
     }
 
     private void setupSwipeToDelete() {

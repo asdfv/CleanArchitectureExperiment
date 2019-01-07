@@ -61,6 +61,9 @@ class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
         return notes.size();
     }
 
+    /**
+     * ViewHolder class for Notes Recycler view
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
         NoteItemBinding binding;
 

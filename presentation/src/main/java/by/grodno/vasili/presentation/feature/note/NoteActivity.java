@@ -5,8 +5,8 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.annimon.stream.function.Consumer;
 
@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import by.grodno.vasili.domain.model.Note;
 import by.grodno.vasili.presentation.R;
+import by.grodno.vasili.presentation.databinding.ActivityNoteBinding;
 import by.grodno.vasili.presentation.feature.common.BaseActivity;
 import timber.log.Timber;
 
@@ -23,60 +24,67 @@ import static org.apache.commons.lang3.StringUtils.trim;
 /**
  * Activity for add note functionality
  */
-public class NoteActivity extends BaseActivity {
+public class NoteActivity extends BaseActivity<ActivityNoteBinding> {
     public static final String NOTE_SAVED = "by.grodno.vasili.presentation.feature.note.EXTRA.NOTE_SAVED";
-    private EditText titleInput;
-    private EditText descriptionInput;
-    private ImageView closeImage;
-    private ImageView checkImage;
+    private NoteViewModel model;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_note);
-        NoteViewModel model = ViewModelProviders.of(this, viewModelFactory).get(NoteViewModel.class);
-        findViews();
-        setListeners(model);
+        binding.setHandler(new NoteHandler());
+        model = ViewModelProviders.of(this, viewModelFactory).get(NoteViewModel.class);
     }
 
-    private void setListeners(NoteViewModel model) {
-        closeImage.setOnClickListener(view -> finish());
-        checkImage.setOnClickListener(view -> {
-                    String title = trim(titleInput.getText().toString());
-                    String description = trim(descriptionInput.getText().toString());
-                    if (validate(title, description)) {
-                        Consumer<String> onSuccess = id -> {
-                            showToast("Successfully saved " + id);
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra(NOTE_SAVED, true);
-                            setResult(Activity.RESULT_OK, resultIntent);
-                            finish();
-                        };
-                        Consumer<Throwable> onError = error -> {
-                            showToast("Saving error " + error.getLocalizedMessage());
-                            Timber.e(error, "Error executing use case");
-                            finish();
-                        };
-                        Note note = new Note(null, title, description);
-                        model.saveNoteAsync(note, onSuccess, onError);
-                    } else {
-                        showToast("Please enter Title and Description");
-                    }
-                }
-        );
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_note;
     }
 
-    private void findViews() {
-        titleInput = findViewById(R.id.title_input);
-        descriptionInput = findViewById(R.id.description_input);
-        closeImage = findViewById(R.id.close_image);
-        checkImage = findViewById(R.id.check_image);
-    }
+    /**
+     * Handler class for Note view events
+     */
+    public class NoteHandler {
 
-    private boolean validate(String title, String description) {
-        return isNoneBlank(title, description);
+        /**
+         * Finish NoteActivity
+         */
+        @SuppressWarnings("unused")
+        public void close(View view) {
+            finish();
+        }
+
+        /**
+         * Create domain {@link Note} from entered by user fields and try to save it in ViewModel
+         */
+        @SuppressWarnings("unused")
+        public void save(View view) {
+            String title = trim(binding.titleInput.getText().toString());
+            String description = trim(binding.descriptionInput.getText().toString());
+            if (validate(title, description)) {
+                Consumer<String> onSuccess = id -> {
+                    showToast("Successfully saved " + id);
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra(NOTE_SAVED, true);
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
+                };
+                Consumer<Throwable> onError = error -> {
+                    showToast("Saving error " + error.getLocalizedMessage());
+                    Timber.e(error, "Error executing use case");
+                    finish();
+                };
+                Note note = new Note(null, title, description);
+                model.saveNoteAsync(note, onSuccess, onError);
+            } else {
+                showToast("Please enter Title and Description");
+            }
+        }
+
+        private boolean validate(String title, String description) {
+            return isNoneBlank(title, description);
+        }
     }
 }

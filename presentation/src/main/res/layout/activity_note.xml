@@ -1,85 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="8dp"
-    tools:context="by.grodno.vasili.presentation.feature.note.NoteActivity"
     >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/toolbar"
-        app:contentInsetStart="0dp"
+    <data>
+
+        <variable
+            name="handler"
+            type="by.grodno.vasili.presentation.feature.note.NoteActivity.NoteHandler"
+            />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
         >
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/toolbar"
+            app:contentInsetStart="0dp"
             >
 
-            <ImageView
-                android:id="@+id/close_image"
-                style="@style/toolbar_image"
-                android:src="@drawable/ic_close"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
 
-            <TextView
-                style="@style/toolbar_text"
-                android:text="Note"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/close_image"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                <ImageView
+                    android:id="@+id/close_image"
+                    style="@style/toolbar_image"
+                    android:contentDescription="@string/cancel"
+                    android:onClick="@{handler::close}"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
 
-            <ImageView
-                android:id="@+id/check_image"
-                style="@style/toolbar_image"
-                android:src="@drawable/ic_check"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                <TextView
+                    style="@style/toolbar_text"
+                    android:text="@string/add_note"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/close_image"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
 
-        </android.support.constraint.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/check_image"
+                    style="@style/toolbar_image"
+                    android:contentDescription="@string/ok"
+                    android:onClick="@{handler::save}"
+                    android:src="@drawable/ic_check"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
 
-    </android.support.v7.widget.Toolbar>
+            </android.support.constraint.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/title_label"
-        style="@style/note_label_style"
-        android:text="Title"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        </android.support.v7.widget.Toolbar>
 
-    <EditText
-        android:id="@+id/title_input"
-        style="@style/note_input_style"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_label"
-        />
+        <TextView
+            android:id="@+id/title_label"
+            style="@style/note_label_style"
+            android:text="@string/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            />
 
-    <TextView
-        android:id="@+id/description_label"
-        style="@style/note_label_style"
-        android:text="Description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_input"
-        />
+        <EditText
+            android:id="@+id/title_input"
+            style="@style/note_input_style"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_label"
+            />
 
-    <EditText
-        android:id="@+id/description_input"
-        style="@style/note_input_style"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/description_label"
-        />
+        <TextView
+            android:id="@+id/description_label"
+            style="@style/note_label_style"
+            android:text="@string/description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_input"
+            />
 
-</android.support.constraint.ConstraintLayout>
+        <EditText
+            android:id="@+id/description_input"
+            style="@style/note_input_style"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description_label"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
+
