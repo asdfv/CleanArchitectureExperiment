@@ -76,7 +76,7 @@ public class NoteActivity extends BaseActivity<ActivityNoteBinding> {
                     Timber.e(error, "Error executing use case");
                     finish();
                 };
-                Note note = new Note(null, title, description);
+                Note note = new Note(title, description);
                 model.saveNoteAsync(note, onSuccess, onError);
             } else {
                 showToast("Please enter Title and Description");

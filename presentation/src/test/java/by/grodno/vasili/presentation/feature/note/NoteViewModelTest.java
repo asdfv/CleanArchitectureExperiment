@@ -39,7 +39,7 @@ public class NoteViewModelTest {
     public void setUp() {
         Scheduler scheduler = Schedulers.trampoline();
         Single<String> single = Single.fromObservable(Observable.just(TEST_ID));
-        note = new Note(null, "asd", "sdf");
+        note = new Note("asd", "sdf");
         when(repository.insert(note)).thenReturn(single);
         when(subscriberThread.getScheduler()).thenReturn(scheduler);
         when(postExecutionThread.getScheduler()).thenReturn(scheduler);

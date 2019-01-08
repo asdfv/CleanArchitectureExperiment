@@ -70,7 +70,7 @@ public class NoteEntityDataMapper {
             Timber.d("Null NoteEntity while convert to Note");
             return null;
         }
-        return new Note(entity.id, entity.title, entity.description);
+        return new Note(entity.id, entity.title, entity.description, entity.getCreatedTimestamp());
     }
 
     /**
@@ -85,7 +85,7 @@ public class NoteEntityDataMapper {
     }
 
     /**
-     * Convert {@link NoteEntity} to {@link Note}
+     * Convert {@link Note} into {@link NoteEntity}
      */
     @Nullable
     public NoteEntity convert(Note note) {
