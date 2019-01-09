@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -17,6 +16,7 @@ import by.grodno.vasili.presentation.R;
 import by.grodno.vasili.presentation.databinding.ActivityNotesBinding;
 import by.grodno.vasili.presentation.feature.common.BaseActivity;
 import by.grodno.vasili.presentation.feature.note.NoteActivity;
+import by.grodno.vasili.presentation.feature.notedetails.DetailsActivity;
 
 /**
  * Activity for present list of notes
@@ -56,6 +56,12 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
         }
     }
 
+    public void onItemClick(String id) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(DetailsActivity.ID, id);
+        startActivity(intent);
+    }
+
     private void initSwipeToDelete() {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -92,10 +98,5 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
     private void initRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
-    }
-
-    // TODO: Add click event
-    public void onItemClick(String id) {
-        Toast.makeText(this, id, Toast.LENGTH_LONG).show();
     }
 }

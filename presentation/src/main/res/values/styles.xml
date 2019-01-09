@@ -43,4 +43,19 @@
         <item name="android:padding">10dp</item>
     </style>
 
+    <style name="wrap_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="details_label" parent="wrap_content">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+    </style>
+
+    <style name="details_output" parent="wrap_content">
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
 </resources>

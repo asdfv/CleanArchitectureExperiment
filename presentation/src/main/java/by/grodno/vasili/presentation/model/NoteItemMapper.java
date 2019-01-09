@@ -13,15 +13,15 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import by.grodno.vasili.domain.model.Note;
-import by.grodno.vasili.presentation.feature.notes.NotesActivityScope;
 
 /**
  * Mapper class used to convert {@link Note} from Domain layer to
  * {@link NoteItem} in Presentation layer
  */
-@NotesActivityScope
+@Singleton
 public class NoteItemMapper {
     private static final String DATE_FORMAT ="yyyy-MM-dd HH:mm:ss";
     private static final String NO_DATE = "No date";
@@ -37,7 +37,7 @@ public class NoteItemMapper {
      * Convert single {@link Note}
      */
     @Nullable
-    private NoteItem convert(Note note) {
+    public NoteItem convert(Note note) {
         if (note == null) {
             return null;
         }
