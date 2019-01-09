@@ -10,6 +10,11 @@
             name="note"
             type="by.grodno.vasili.presentation.model.NoteItem"
             />
+
+        <variable
+            name="handler"
+            type="by.grodno.vasili.presentation.feature.notes.NotesActivity"
+            />
     </data>
 
     <android.support.v7.widget.CardView
@@ -18,6 +23,7 @@
         android:paddingStart="8dp"
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
+        android:onClick="@{() -> handler.onItemClick(note.id)}"
         >
 
         <RelativeLayout
@@ -33,7 +39,7 @@
                 android:layout_alignParentEnd="true"
                 android:text="@{note.created}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                tool:text="123"
+                tool:text="2018-01-01 15:15:11"
                 />
 
             <TextView

@@ -1,19 +1,15 @@
 package by.grodno.vasili.presentation.feature.notes;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-
-import java.util.List;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -21,17 +17,13 @@ import by.grodno.vasili.presentation.R;
 import by.grodno.vasili.presentation.databinding.ActivityNotesBinding;
 import by.grodno.vasili.presentation.feature.common.BaseActivity;
 import by.grodno.vasili.presentation.feature.note.NoteActivity;
-import by.grodno.vasili.presentation.model.NoteItem;
 
 /**
  * Activity for present list of notes
  */
 public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
     private static final int ADD_NOTE_REQUEST_CODE = 1;
-    private RecyclerView recyclerView;
-    private FloatingActionButton floatingButton;
     private NotesViewModel model;
-    private SwipeRefreshLayout swipeContainer;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -43,10 +35,9 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         model = ViewModelProviders.of(this, viewModelFactory).get(NotesViewModel.class);
-        LiveData<List<NoteItem>> notes = model.getNotesLiveData();
-        notes.observe(this, adapter::setNotes);
-        findAndSetupViews();
-        setupSwipeToDelete();
+        initViews();
+        initSwipeToDelete();
+        model.getNotesLiveData().observe(this, adapter::setNotes);
     }
 
     @Override
@@ -65,7 +56,7 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
         }
     }
 
-    private void setupSwipeToDelete() {
+    private void initSwipeToDelete() {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -81,28 +72,30 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView);
     }
 
-    private void findAndSetupViews() {
-        findAndSetupFloatingButton();
-        findAndSetupRecyclerView();
-        findAndSetupSwipeContainer();
+    private void initViews() {
+        initFloatingButton();
+        initRecyclerView();
+        initSwipeContainer();
     }
 
-    private void findAndSetupFloatingButton() {
-        floatingButton = findViewById(R.id.fab);
-        floatingButton.setOnClickListener(view -> startActivityForResult(new Intent(this, NoteActivity.class), ADD_NOTE_REQUEST_CODE));
+    private void initFloatingButton() {
+        binding.fab.setOnClickListener(view -> startActivityForResult(new Intent(this, NoteActivity.class), ADD_NOTE_REQUEST_CODE));
     }
 
-    private void findAndSetupSwipeContainer() {
-        swipeContainer = findViewById(R.id.swipe_container);
-        swipeContainer.setOnRefreshListener(() -> model.reloadData(() -> swipeContainer.setRefreshing(false)));
+    private void initSwipeContainer() {
+        binding.swipeContainer.setOnRefreshListener(() -> model.reloadData(() -> binding.swipeContainer.setRefreshing(false)));
     }
 
-    private void findAndSetupRecyclerView() {
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+    private void initRecyclerView() {
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(adapter);
+    }
+
+    // TODO: Add click event
+    public void onItemClick(String id) {
+        Toast.makeText(this, id, Toast.LENGTH_LONG).show();
     }
 }

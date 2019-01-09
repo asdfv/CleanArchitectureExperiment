@@ -25,7 +25,7 @@ class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
     @Inject
     NotesAdapter() {
-        notes = new ArrayList<>();
+        this.notes = new ArrayList<>();
     }
 
     /**
@@ -54,6 +54,7 @@ class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NoteItem item = notes.get(position);
         holder.binding.setNote(item);
+        holder.binding.setHandler((NotesActivity) holder.itemView.getContext());
     }
 
     @Override
