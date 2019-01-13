@@ -1,4 +1,4 @@
-package by.grodno.vasili.presentation.feature.note;
+package by.grodno.vasili.presentation.feature.addnote;
 
 import android.arch.lifecycle.ViewModel;
 
@@ -13,10 +13,10 @@ import dagger.Provides;
 import dagger.multibindings.IntoMap;
 
 @Module
-public abstract class NoteActivityModule {
+public abstract class AddNoteActivityModule {
 
     @Provides
-    @NoteActivityScope
+    @AddNoteActivityScope
     static SaveNoteUseCase provideSaveNoteUseCase(UIThread uiThread, IOThread ioThread, NoteDataRepository repository) {
         return new SaveNoteUseCase(ioThread, uiThread, repository);
     }
@@ -24,6 +24,6 @@ public abstract class NoteActivityModule {
     @SuppressWarnings("unused")
     @Binds
     @IntoMap
-    @ViewModelKey(NoteViewModel.class)
-    abstract ViewModel bindNoteViewModel(NoteViewModel noteViewModel);
+    @ViewModelKey(AddNoteViewModel.class)
+    abstract ViewModel bindAddNoteViewModel(AddNoteViewModel addNoteViewModel);
 }

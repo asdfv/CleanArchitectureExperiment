@@ -1,4 +1,4 @@
-package by.grodno.vasili.presentation.feature.note;
+package by.grodno.vasili.presentation.feature.addnote;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
  * Test useCase correct work while saving {@link Note}
  */
 @RunWith(MockitoJUnitRunner.class)
-public class NoteViewModelTest {
+public class AddNoteViewModelTest {
     private static final String TEST_ID = "testId";
     private SaveNoteUseCase useCase;
     private Note note;

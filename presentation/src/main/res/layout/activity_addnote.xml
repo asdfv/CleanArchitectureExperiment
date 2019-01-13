@@ -9,7 +9,7 @@
 
         <variable
             name="handler"
-            type="by.grodno.vasili.presentation.feature.note.NoteActivity.NoteHandler"
+            type="by.grodno.vasili.presentation.feature.addnote.AddNoteActivity.NoteHandler"
             />
     </data>
 

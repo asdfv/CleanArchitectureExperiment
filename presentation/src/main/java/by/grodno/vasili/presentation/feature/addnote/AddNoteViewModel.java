@@ -1,4 +1,4 @@
-package by.grodno.vasili.presentation.feature.note;
+package by.grodno.vasili.presentation.feature.addnote;
 
 import android.arch.lifecycle.ViewModel;
 
@@ -13,11 +13,11 @@ import io.reactivex.observers.DisposableSingleObserver;
 /**
  * View model for activity with add note functionality
  */
-public class NoteViewModel extends ViewModel {
+public class AddNoteViewModel extends ViewModel {
     private final SaveNoteUseCase useCase;
 
     @Inject
-    NoteViewModel(SaveNoteUseCase useCase) {
+    AddNoteViewModel(SaveNoteUseCase useCase) {
         this.useCase = useCase;
     }
 
@@ -25,8 +25,8 @@ public class NoteViewModel extends ViewModel {
      * Save one note to repository
      *
      * @param note      to save
-     * @param onSuccess - success callback
-     * @param onError   - error callback
+     * @param onSuccess success callback
+     * @param onError   error callback
      */
     void saveNoteAsync(Note note, Consumer<String> onSuccess, Consumer<Throwable> onError) {
         DisposableSingleObserver<String> observer = new DisposableSingleObserver<String>() {

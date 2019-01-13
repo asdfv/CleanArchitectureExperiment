@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import by.grodno.vasili.presentation.R;
 import by.grodno.vasili.presentation.databinding.ActivityNotesBinding;
 import by.grodno.vasili.presentation.feature.common.BaseActivity;
-import by.grodno.vasili.presentation.feature.note.NoteActivity;
+import by.grodno.vasili.presentation.feature.addnote.AddNoteActivity;
 import by.grodno.vasili.presentation.feature.notedetails.DetailsActivity;
 
 /**
@@ -52,7 +52,7 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
         if (resultCode == RESULT_OK && data != null) {
             switch (requestCode) {
                 case ADD_NOTE_REQUEST_CODE: {
-                    refreshIfNeeded(data, NoteActivity.NOTE_SAVED);
+                    refreshIfNeeded(data, AddNoteActivity.NOTE_SAVED);
                 }
                 case DETAILS_NOTE_REQUEST_CODE: {
                     refreshIfNeeded(data, DetailsActivity.NOTE_CHANGED);
@@ -104,7 +104,7 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
     }
 
     private void initFloatingButton() {
-        binding.fab.setOnClickListener(view -> startActivityForResult(new Intent(this, NoteActivity.class), ADD_NOTE_REQUEST_CODE));
+        binding.fab.setOnClickListener(view -> startActivityForResult(new Intent(this, AddNoteActivity.class), ADD_NOTE_REQUEST_CODE));
     }
 
     private void initSwipeContainer() {

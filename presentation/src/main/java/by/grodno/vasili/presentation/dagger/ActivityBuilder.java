@@ -1,8 +1,8 @@
 package by.grodno.vasili.presentation.dagger;
 
-import by.grodno.vasili.presentation.feature.note.NoteActivity;
-import by.grodno.vasili.presentation.feature.note.NoteActivityModule;
-import by.grodno.vasili.presentation.feature.note.NoteActivityScope;
+import by.grodno.vasili.presentation.feature.addnote.AddNoteActivity;
+import by.grodno.vasili.presentation.feature.addnote.AddNoteActivityModule;
+import by.grodno.vasili.presentation.feature.addnote.AddNoteActivityScope;
 import by.grodno.vasili.presentation.feature.notedetails.DetailsActivity;
 import by.grodno.vasili.presentation.feature.notedetails.DetailsActivityModule;
 import by.grodno.vasili.presentation.feature.notedetails.DetailsActivityScope;
@@ -23,9 +23,9 @@ interface ActivityBuilder {
     NotesActivity bindNotesActivity();
 
     @SuppressWarnings("unused")
-    @NoteActivityScope
-    @ContributesAndroidInjector(modules = {NoteActivityModule.class})
-    NoteActivity bindNoteActivity();
+    @AddNoteActivityScope
+    @ContributesAndroidInjector(modules = {AddNoteActivityModule.class})
+    AddNoteActivity bindAddNoteActivity();
 
     @SuppressWarnings("unused")
     @DetailsActivityScope

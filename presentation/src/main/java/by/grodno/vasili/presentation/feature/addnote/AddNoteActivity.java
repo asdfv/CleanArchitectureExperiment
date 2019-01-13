@@ -1,4 +1,4 @@
-package by.grodno.vasili.presentation.feature.note;
+package by.grodno.vasili.presentation.feature.addnote;
 
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
@@ -16,7 +16,7 @@ import javax.inject.Inject;
 
 import by.grodno.vasili.domain.model.Note;
 import by.grodno.vasili.presentation.R;
-import by.grodno.vasili.presentation.databinding.ActivityNoteBinding;
+import by.grodno.vasili.presentation.databinding.ActivityAddnoteBinding;
 import by.grodno.vasili.presentation.feature.common.BaseActivity;
 import timber.log.Timber;
 
@@ -29,9 +29,9 @@ import static org.apache.commons.lang3.StringUtils.trim;
 /**
  * Activity for add note functionality
  */
-public class NoteActivity extends BaseActivity<ActivityNoteBinding> {
-    public static final String NOTE_SAVED = "by.grodno.vasili.presentation.feature.note.EXTRA.NOTE_SAVED";
-    private NoteViewModel model;
+public class AddNoteActivity extends BaseActivity<ActivityAddnoteBinding> {
+    public static final String NOTE_SAVED = "by.grodno.vasili.presentation.feature.addnote.EXTRA.NOTE_SAVED";
+    private AddNoteViewModel model;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -40,12 +40,12 @@ public class NoteActivity extends BaseActivity<ActivityNoteBinding> {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding.setHandler(new NoteHandler());
-        model = ViewModelProviders.of(this, viewModelFactory).get(NoteViewModel.class);
+        model = ViewModelProviders.of(this, viewModelFactory).get(AddNoteViewModel.class);
     }
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_note;
+        return R.layout.activity_addnote;
     }
 
     /**
@@ -54,7 +54,7 @@ public class NoteActivity extends BaseActivity<ActivityNoteBinding> {
     public class NoteHandler {
 
         /**
-         * Finish NoteActivity
+         * Finish AddNoteActivity
          */
         @SuppressWarnings("unused")
         public void close(View view) {
