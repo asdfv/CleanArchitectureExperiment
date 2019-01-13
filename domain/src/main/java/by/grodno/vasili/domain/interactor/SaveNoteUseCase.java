@@ -31,7 +31,9 @@ public class SaveNoteUseCase extends UseCase<DisposableSingleObserver<String>, S
 
     @Override
     public void execute(DisposableSingleObserver<String> observer, Params params) {
-        final Single<String> observable = repository.insert(params.note)
+        Note note = params.note;
+        Single<String> operation = note.id == null ? repository.insert(note) : repository.update(note);
+        final Single<String> observable = operation
                 .subscribeOn(subscriberThread.getScheduler())
                 .observeOn(postExecutionThread.getScheduler());
         disposables.add(observable.subscribeWith(observer));

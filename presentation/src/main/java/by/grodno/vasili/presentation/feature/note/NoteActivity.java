@@ -10,6 +10,8 @@ import android.view.View;
 
 import com.annimon.stream.function.Consumer;
 
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 import by.grodno.vasili.domain.model.Note;
@@ -18,7 +20,10 @@ import by.grodno.vasili.presentation.databinding.ActivityNoteBinding;
 import by.grodno.vasili.presentation.feature.common.BaseActivity;
 import timber.log.Timber;
 
-import static org.apache.commons.lang3.StringUtils.isNoneBlank;
+import static by.grodno.vasili.presentation.feature.common.Utils.MAX_DESCRIPTION_LENGTH;
+import static by.grodno.vasili.presentation.feature.common.Utils.MAX_TITLE_LENGTH;
+import static by.grodno.vasili.presentation.feature.common.Utils.validateDescription;
+import static by.grodno.vasili.presentation.feature.common.Utils.validateTitle;
 import static org.apache.commons.lang3.StringUtils.trim;
 
 /**
@@ -63,28 +68,31 @@ public class NoteActivity extends BaseActivity<ActivityNoteBinding> {
         public void save(View view) {
             String title = trim(binding.titleInput.getText().toString());
             String description = trim(binding.descriptionInput.getText().toString());
-            if (validate(title, description)) {
-                Consumer<String> onSuccess = id -> {
-                    showToast("Successfully saved " + id);
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra(NOTE_SAVED, true);
-                    setResult(Activity.RESULT_OK, resultIntent);
-                    finish();
-                };
-                Consumer<Throwable> onError = error -> {
-                    showToast("Saving error " + error.getLocalizedMessage());
-                    Timber.e(error, "Error executing use case");
-                    finish();
-                };
-                Note note = new Note(title, description);
-                model.saveNoteAsync(note, onSuccess, onError);
+            if (validateTitle(title) && validateDescription(description)) {
+                saveNoteAsync(title, description);
             } else {
-                showToast("Please enter Title and Description");
+                showToast(String.format(Locale.US,
+                        "Entered data can`t be empty. Maximum length for title: %d, for description: %d",
+                        MAX_TITLE_LENGTH,
+                        MAX_DESCRIPTION_LENGTH));
             }
         }
+    }
 
-        private boolean validate(String title, String description) {
-            return isNoneBlank(title, description);
-        }
+    private void saveNoteAsync(String title, String description) {
+        Consumer<String> onSuccess = id -> {
+            showToast("Successfully saved " + id);
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(NOTE_SAVED, true);
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+        };
+        Consumer<Throwable> onError = error -> {
+            showToast("Saving error " + error.getLocalizedMessage());
+            Timber.e(error, "Error executing use case");
+            finish();
+        };
+        Note note = new Note(title, description);
+        model.saveNoteAsync(note, onSuccess, onError);
     }
 }

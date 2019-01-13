@@ -7,9 +7,9 @@ public class NoteItem {
     public String id;
     public String title;
     public String description;
-    public String created;
+    public long created;
 
-    NoteItem(String id, String title, String description, String created) {
+    public NoteItem(String id, String title, String description, long created) {
         this.id = id;
         this.title = title;
         this.description = description;

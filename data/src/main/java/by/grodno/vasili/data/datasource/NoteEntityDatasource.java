@@ -33,4 +33,11 @@ public interface NoteEntityDatasource {
      * @return Single observable assigned id
      */
     Single<String> insert(NoteEntity noteEntity);
+
+    /**
+     * Update one {@link NoteEntity} by id
+     *
+     * @return Single observable updated id
+     */
+    Single<String> update(NoteEntity noteEntity);
 }

@@ -78,4 +78,19 @@ public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
                     }
                 }));
     }
+
+    @Override
+    public Single<String> update(NoteEntity entity) {
+        return Single.create(emitter -> notesRef.child(entity.id)
+                .setValue(entity, (error, ref) -> {
+                    if (emitter.isDisposed()) {
+                        return;
+                    }
+                    if (error == null) {
+                        emitter.onSuccess(ref.getKey());
+                    } else {
+                        emitter.onError(error.toException());
+                    }
+                }));
+    }
 }

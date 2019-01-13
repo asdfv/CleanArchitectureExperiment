@@ -34,7 +34,13 @@ public interface NoteRepository {
 
     /**
      * Insert one {@link Note} to datasource
-     * @return observable saved {@link Note}
+     * @return observable saved {@link Note} id
      */
     Single<String> insert(Note note);
+
+    /**
+     * Update {@link Note} by id
+     * @return observable saved {@link Note} id
+     */
+    Single<String> update(Note note);
 }

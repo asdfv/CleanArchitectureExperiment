@@ -5,12 +5,8 @@ import android.support.annotation.Nullable;
 
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,14 +19,9 @@ import by.grodno.vasili.domain.model.Note;
  */
 @Singleton
 public class NoteItemMapper {
-    private static final String DATE_FORMAT ="yyyy-MM-dd HH:mm:ss";
-    private static final String NO_DATE = "No date";
-    private final SimpleDateFormat simpleDateFormat;
 
     @Inject
     NoteItemMapper() {
-        this.simpleDateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
-        simpleDateFormat.setTimeZone(Calendar.getInstance().getTimeZone());
     }
 
     /**
@@ -41,9 +32,18 @@ public class NoteItemMapper {
         if (note == null) {
             return null;
         }
-        long timestamp = note.created;
-        String created = timestamp == 0 ? NO_DATE : simpleDateFormat.format(new Date(timestamp));
-        return new NoteItem(note.id, note.title, note.description, created);
+        return new NoteItem(note.id, note.title, note.description, note.created);
+    }
+
+    /**
+     * Convert single {@link Note}
+     */
+    @Nullable
+    public Note convert(NoteItem item) {
+        if (item == null) {
+            return null;
+        }
+        return new Note(item.id, item.title, item.description, item.created);
     }
 
     /**

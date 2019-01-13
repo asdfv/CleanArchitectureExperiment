@@ -7,4 +7,7 @@
     <string name="cancel">Cancel</string>
     <string name="id">ID</string>
     <string name="created_date">Created date</string>
+    <string name="edit"><u>Edit</u></string>
+    <string name="save">Save</string>
+    <string name="details">Details</string>
 </resources>

@@ -23,6 +23,7 @@ import by.grodno.vasili.presentation.feature.notedetails.DetailsActivity;
  */
 public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
     private static final int ADD_NOTE_REQUEST_CODE = 1;
+    private static final int DETAILS_NOTE_REQUEST_CODE = 2;
     private NotesViewModel model;
 
     @Inject
@@ -48,18 +49,33 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADD_NOTE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            boolean noteSaved = data.getBooleanExtra(NoteActivity.NOTE_SAVED, false);
-            if (noteSaved) {
-                model.reloadData();
+        if (resultCode == RESULT_OK && data != null) {
+            switch (requestCode) {
+                case ADD_NOTE_REQUEST_CODE: {
+                    refreshIfNeeded(data, NoteActivity.NOTE_SAVED);
+                }
+                case DETAILS_NOTE_REQUEST_CODE: {
+                    refreshIfNeeded(data, DetailsActivity.NOTE_CHANGED);
+                }
             }
         }
     }
 
+    /**
+     * Handler for click on item in Recycler view
+     * @param id clicked note id
+     */
     public void onItemClick(String id) {
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra(DetailsActivity.ID, id);
-        startActivity(intent);
+        startActivityForResult(intent, DETAILS_NOTE_REQUEST_CODE);
+    }
+
+    private void refreshIfNeeded(@NonNull Intent data, String extraName) {
+        boolean needRefresh = data.getBooleanExtra(extraName, false);
+        if (needRefresh) {
+            model.reloadData();
+        }
     }
 
     private void initSwipeToDelete() {
