@@ -32,5 +32,5 @@ public abstract class DetailsActivityModule {
     @Binds
     @IntoMap
     @ViewModelKey(DetailsViewModel.class)
-    abstract ViewModel bindNoteViewModel(DetailsViewModel detailsViewModel);
+    abstract ViewModel bindDetailsViewModel(DetailsViewModel detailsViewModel);
 }

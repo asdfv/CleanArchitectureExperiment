@@ -66,7 +66,7 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding> {
     }
 
     /**
-     * Checking entered data for correct and changes and save
+     * Checking entered data for correct and presence of changes and save
      */
     public void saveIfChanged(NoteItem item) {
         String changedTitle = trim(binding.titleText.getText().toString());

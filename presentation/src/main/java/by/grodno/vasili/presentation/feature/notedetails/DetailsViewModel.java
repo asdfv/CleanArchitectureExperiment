@@ -58,9 +58,10 @@ public class DetailsViewModel extends ViewModel {
 
     /**
      * Update note
-     * @param item note
+     *
+     * @param item      note
      * @param onSuccess success callback
-     * @param onError error callback
+     * @param onError   error callback
      */
     void save(NoteItem item, Consumer<String> onSuccess, Consumer<Throwable> onError) {
         DisposableSingleObserver<String> observer = new DisposableSingleObserver<String>() {
@@ -81,5 +82,6 @@ public class DetailsViewModel extends ViewModel {
     protected void onCleared() {
         super.onCleared();
         getNoteUseCase.dispose();
+        saveNoteUseCase.dispose();
     }
 }
