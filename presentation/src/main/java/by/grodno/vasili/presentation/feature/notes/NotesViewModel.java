@@ -91,7 +91,7 @@ public class NotesViewModel extends ViewModel {
         DisposableSingleObserver<List<Note>> observer = new DisposableSingleObserver<List<Note>>() {
             @Override
             public void onSuccess(List<Note> receivedNotes) {
-                notesLiveData.setValue(mapper.convert(receivedNotes));
+                notesLiveData.setValue(mapper.mapList(receivedNotes));
                 onComplete.run();
             }
 

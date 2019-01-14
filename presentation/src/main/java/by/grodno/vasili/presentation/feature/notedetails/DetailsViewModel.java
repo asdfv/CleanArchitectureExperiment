@@ -40,7 +40,7 @@ public class DetailsViewModel extends ViewModel {
         DisposableMaybeObserver<Note> observer = new DisposableMaybeObserver<Note>() {
             @Override
             public void onSuccess(Note note) {
-                noteLiveData.setValue(mapper.convert(note));
+                noteLiveData.setValue(mapper.map(note));
             }
 
             @Override
@@ -75,7 +75,7 @@ public class DetailsViewModel extends ViewModel {
                 onError.accept(e);
             }
         };
-        saveNoteUseCase.execute(observer, SaveNoteUseCase.Params.create(mapper.convert(item)));
+        saveNoteUseCase.execute(observer, SaveNoteUseCase.Params.create(mapper.reverseMap(item)));
     }
 
     @Override
