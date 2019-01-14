@@ -1,4 +1,4 @@
-package by.grodno.vasili.presentation.feature.common;
+package by.grodno.vasili.presentation.feature.base;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;

@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import by.grodno.vasili.presentation.R;
 import by.grodno.vasili.presentation.databinding.ActivityNotesBinding;
 import by.grodno.vasili.presentation.feature.addnote.AddNoteActivity;
-import by.grodno.vasili.presentation.feature.common.BaseActivity;
+import by.grodno.vasili.presentation.feature.base.BaseActivity;
 import by.grodno.vasili.presentation.feature.notedetails.DetailsActivity;
 
 /**

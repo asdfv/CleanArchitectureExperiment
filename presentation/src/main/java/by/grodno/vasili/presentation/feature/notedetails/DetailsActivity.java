@@ -16,14 +16,14 @@ import javax.inject.Inject;
 
 import by.grodno.vasili.presentation.R;
 import by.grodno.vasili.presentation.databinding.ActivityDetailsBinding;
-import by.grodno.vasili.presentation.feature.common.BaseActivity;
+import by.grodno.vasili.presentation.feature.base.BaseActivity;
 import by.grodno.vasili.presentation.model.NoteItem;
 import timber.log.Timber;
 
-import static by.grodno.vasili.presentation.feature.common.Utils.MAX_DESCRIPTION_LENGTH;
-import static by.grodno.vasili.presentation.feature.common.Utils.MAX_TITLE_LENGTH;
-import static by.grodno.vasili.presentation.feature.common.Utils.validateDescription;
-import static by.grodno.vasili.presentation.feature.common.Utils.validateTitle;
+import static by.grodno.vasili.presentation.feature.base.Utils.MAX_DESCRIPTION_LENGTH;
+import static by.grodno.vasili.presentation.feature.base.Utils.MAX_TITLE_LENGTH;
+import static by.grodno.vasili.presentation.feature.base.Utils.validateDescription;
+import static by.grodno.vasili.presentation.feature.base.Utils.validateTitle;
 import static org.apache.commons.lang3.StringUtils.trim;
 
 /**

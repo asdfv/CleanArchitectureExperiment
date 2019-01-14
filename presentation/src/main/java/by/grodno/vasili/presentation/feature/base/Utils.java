@@ -1,4 +1,4 @@
-package by.grodno.vasili.presentation.feature.common;
+package by.grodno.vasili.presentation.feature.base;
 
 import static org.apache.commons.lang3.StringUtils.length;
 import static org.apache.commons.lang3.StringUtils.trim;
