@@ -53,7 +53,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     />
 
-                <!--Retrieve note without fields changes-->
                 <ImageView
                     android:id="@+id/check_image"
                     style="@style/toolbar_image"
@@ -129,7 +128,6 @@
             android:id="@+id/title_text"
             style="@style/details_edit_text"
             android:background="@null"
-            android:paddingEnd="10dp"
             android:text="@{note.title}"
             app:layout_constraintStart_toStartOf="@id/title_label"
             app:layout_constraintTop_toBottomOf="@id/title_label"
@@ -147,7 +145,6 @@
         <EditText
             android:id="@+id/description_text"
             style="@style/details_edit_text"
-            android:paddingEnd="10dp"
             android:text="@{note.description}"
             app:layout_constraintStart_toStartOf="@id/description_label"
             app:layout_constraintTop_toBottomOf="@id/description_label"

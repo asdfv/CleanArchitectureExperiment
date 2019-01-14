@@ -7,7 +7,7 @@ import com.google.firebase.database.Query;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.util.Collection;
+import java.util.List;
 
 import by.grodno.vasili.data.entity.NoteEntity;
 import by.grodno.vasili.data.entity.mapper.NoteEntityDataMapper;
@@ -40,7 +40,7 @@ public class FirebaseNoteEntityDatasource implements NoteEntityDatasource {
     }
 
     @Override
-    public Single<Collection<NoteEntity>> all() {
+    public Single<List<NoteEntity>> all() {
         return Single.create(new SingleValueOnSubscribe(notesRef))
                 .map(mapper::convertToCollection);
     }

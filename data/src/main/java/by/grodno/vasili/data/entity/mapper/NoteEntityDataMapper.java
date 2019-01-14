@@ -3,17 +3,16 @@ package by.grodno.vasili.data.entity.mapper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.GenericTypeIndicator;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import by.grodno.vasili.data.entity.NoteEntity;
+import by.grodno.vasili.domain.mapper.Mapper;
 import by.grodno.vasili.domain.model.Note;
 import timber.log.Timber;
 
@@ -24,7 +23,26 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
  * Mapper class used to transform Firebase {@link DataSnapshot} to {@link NoteEntity}
  * from data layer and {@link Note} in the domain layer.
  */
-public class NoteEntityDataMapper {
+public class NoteEntityDataMapper extends Mapper<NoteEntity, Note> {
+
+    @Override
+    public Note map(NoteEntity entity) {
+        if (entity == null) {
+            Timber.d("Null NoteEntity while convert to Note");
+            return null;
+        }
+        return new Note(entity.id, entity.title, entity.description, entity.getCreatedTimestamp());
+    }
+
+    @Override
+    public NoteEntity reverseMap(Note note) {
+        if (note == null) {
+            Timber.d("Null Note while convert to NoteEntity");
+            return null;
+        }
+        return new NoteEntity(note.id, note.title, note.description);
+    }
+
     /**
      * Convert a {@link DataSnapshot} into an {@link NoteEntity}.
      */
@@ -44,10 +62,10 @@ public class NoteEntityDataMapper {
     }
 
     /**
-     * Convert a {@link DataSnapshot} into a Collection of {@link NoteEntity}.
+     * Convert a {@link DataSnapshot} into a List of {@link NoteEntity}.
      */
     @NonNull
-    public Collection<NoteEntity> convertToCollection(DataSnapshot snapshot) {
+    public List<NoteEntity> convertToCollection(DataSnapshot snapshot) {
         return Stream.of(snapshot)
                 .filter(DataSnapshot::exists)
                 .map(this::getNoteEntitiesMap)
@@ -59,40 +77,6 @@ public class NoteEntityDataMapper {
                     return entity;
                 })
                 .toList();
-    }
-
-    /**
-     * Convert a {@link NoteEntity} into an {@link Note}.
-     */
-    @Nullable
-    public Note convert(NoteEntity entity) {
-        if (entity == null) {
-            Timber.d("Null NoteEntity while convert to Note");
-            return null;
-        }
-        return new Note(entity.id, entity.title, entity.description, entity.getCreatedTimestamp());
-    }
-
-    /**
-     * Convert a collection of {@link NoteEntity} into an collection of {@link Note}.
-     */
-    @NonNull
-    public List<Note> convert(Collection<NoteEntity> entities) {
-        return Stream.of(entities)
-                .withoutNulls()
-                .map(this::convert)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Convert {@link Note} into {@link NoteEntity}
-     */
-    @Nullable
-    public NoteEntity convert(Note note) {
-        if (note == null) {
-            return null;
-        }
-        return new NoteEntity(note.id, note.title, note.description);
     }
 
     private Map<String, NoteEntity> getNoteEntitiesMap(DataSnapshot snapshot) {

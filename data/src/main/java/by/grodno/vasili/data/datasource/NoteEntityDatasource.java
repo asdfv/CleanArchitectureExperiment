@@ -1,6 +1,6 @@
 package by.grodno.vasili.data.datasource;
 
-import java.util.Collection;
+import java.util.List;
 
 import by.grodno.vasili.data.entity.NoteEntity;
 import io.reactivex.Completable;
@@ -15,7 +15,7 @@ public interface NoteEntityDatasource {
     /**
      * Take all
      */
-    Single<Collection<NoteEntity>> all();
+    Single<List<NoteEntity>> all();
 
     /**
      * Take by id

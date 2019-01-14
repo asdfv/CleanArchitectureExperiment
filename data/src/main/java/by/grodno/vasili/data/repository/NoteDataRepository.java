@@ -1,6 +1,5 @@
 package by.grodno.vasili.data.repository;
 
-import java.util.Collection;
 import java.util.List;
 
 import by.grodno.vasili.data.datasource.NoteEntityDatasource;
@@ -27,13 +26,13 @@ public class NoteDataRepository implements NoteRepository {
 
     @Override
     public Maybe<Note> getOne(String id) {
-        return datasource.one(id).map(mapper::convert);
+        return datasource.one(id).map(mapper::map);
     }
 
     @Override
     public Single<List<Note>> getAll() {
-        Single<Collection<NoteEntity>> noteEntities = datasource.all();
-        return noteEntities.map(mapper::convert);
+        Single<List<NoteEntity>> noteEntities = datasource.all();
+        return noteEntities.map(mapper::mapList);
     }
 
     @Override
@@ -43,11 +42,11 @@ public class NoteDataRepository implements NoteRepository {
 
     @Override
     public Single<String> insert(Note note) {
-        return datasource.insert(mapper.convert(note));
+        return datasource.insert(mapper.reverseMap(note));
     }
 
     @Override
     public Single<String> update(Note note) {
-        return datasource.update(mapper.convert(note));
+        return datasource.update(mapper.reverseMap(note));
     }
 }
