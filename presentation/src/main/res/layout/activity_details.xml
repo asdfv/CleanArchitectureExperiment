@@ -14,7 +14,7 @@
 
         <variable
             name="handler"
-            type="by.grodno.vasili.presentation.feature.notedetails.DetailsActivity"
+            type="by.grodno.vasili.presentation.feature.notedetails.DetailsActivity.Handler"
             />
     </data>
 

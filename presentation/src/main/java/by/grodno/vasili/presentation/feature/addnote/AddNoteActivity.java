@@ -52,7 +52,6 @@ public class AddNoteActivity extends BaseActivity<ActivityAddnoteBinding> {
      * Handler class for Note view events
      */
     public class NoteHandler {
-
         /**
          * Finish AddNoteActivity
          */

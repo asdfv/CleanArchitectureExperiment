@@ -14,8 +14,8 @@ import javax.inject.Inject;
 
 import by.grodno.vasili.presentation.R;
 import by.grodno.vasili.presentation.databinding.ActivityNotesBinding;
-import by.grodno.vasili.presentation.feature.common.BaseActivity;
 import by.grodno.vasili.presentation.feature.addnote.AddNoteActivity;
+import by.grodno.vasili.presentation.feature.common.BaseActivity;
 import by.grodno.vasili.presentation.feature.notedetails.DetailsActivity;
 
 /**
@@ -63,6 +63,7 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
 
     /**
      * Handler for click on item in Recycler view
+     *
      * @param id clicked note id
      */
     public void onItemClick(String id) {
