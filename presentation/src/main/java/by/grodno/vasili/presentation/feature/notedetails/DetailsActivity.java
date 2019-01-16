@@ -43,8 +43,47 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding> {
         super.onCreate(savedInstanceState);
         model = ViewModelProviders.of(this, provider).get(DetailsViewModel.class);
         binding.setHandler(new Handler());
+        initToolbar();
         loadNoteAsync();
         model.noteLiveData.observe(this, noteItem -> binding.setNote(noteItem));
+    }
+
+    private void initToolbar() {
+        binding.toolbarView.setOkListener(view -> saveIfChanged());
+    }
+
+    /**
+     * Checking entered data for correct and presence of changes and save
+     */
+    private void saveIfChanged() {
+        NoteItem item = binding.getNote();
+        String changedTitle = trim(binding.titleText.getText().toString());
+        String changedDescription = trim(binding.descriptionText.getText().toString());
+        if (!validateTitle(changedTitle) || !validateDescription(changedDescription)) {
+            showToast(String.format(Locale.US,
+                    "Entered data can`t be empty. Maximum length for title: %d, for description: %d",
+                    MAX_TITLE_LENGTH,
+                    MAX_DESCRIPTION_LENGTH));
+            return;
+        }
+        NoteItem changedItem = new NoteItem(item.id, changedTitle, changedDescription, item.created);
+        if (hasChanges(item, changedItem)) {
+            Consumer<String> onSuccess = id -> showToast(String.format("Note %s successfully updated", id));
+            Consumer<Throwable> onError = error -> showToast("Error updating note: " + error.getLocalizedMessage());
+            model.save(changedItem, onSuccess, onError);
+            notifyAboutChanges();
+        }
+        finish();
+    }
+
+    private void notifyAboutChanges() {
+        Intent intent = new Intent();
+        intent.putExtra(NOTE_CHANGED, true);
+        setResult(RESULT_OK, intent);
+    }
+
+    private boolean hasChanges(NoteItem original, NoteItem changed) {
+        return !original.title.equals(changed.title) || !original.description.equals(changed.description);
     }
 
     private void loadNoteAsync() {
@@ -74,47 +113,6 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding> {
             EditText descriptionView = binding.descriptionText;
             enableEditing(titleView, descriptionView);
             binding.editSwitch.setVisibility(View.GONE);
-            binding.checkImage.setVisibility(View.VISIBLE);
-        }
-
-        /**
-         * Close activity
-         */
-        public void close(View view) {
-            finish();
-        }
-
-        /**
-         * Checking entered data for correct and presence of changes and save
-         */
-        public void saveIfChanged(NoteItem item) {
-            String changedTitle = trim(binding.titleText.getText().toString());
-            String changedDescription = trim(binding.descriptionText.getText().toString());
-            if (!validateTitle(changedTitle) || !validateDescription(changedDescription)) {
-                showToast(String.format(Locale.US,
-                        "Entered data can`t be empty. Maximum length for title: %d, for description: %d",
-                        MAX_TITLE_LENGTH,
-                        MAX_DESCRIPTION_LENGTH));
-                return;
-            }
-            NoteItem changedItem = new NoteItem(item.id, changedTitle, changedDescription, item.created);
-            if (hasChanges(item, changedItem)) {
-                Consumer<String> onSuccess = id -> showToast(String.format("Note %s successfully updated", id));
-                Consumer<Throwable> onError = error -> showToast("Error updating note: " + error.getLocalizedMessage());
-                model.save(changedItem, onSuccess, onError);
-                notifyAboutChanges();
-            }
-            finish();
-        }
-
-        private void notifyAboutChanges() {
-            Intent intent = new Intent();
-            intent.putExtra(NOTE_CHANGED, true);
-            setResult(RESULT_OK, intent);
-        }
-
-        private boolean hasChanges(NoteItem original, NoteItem changed) {
-            return !original.title.equals(changed.title) || !original.description.equals(changed.description);
         }
 
         private void enableEditing(EditText... views) {
