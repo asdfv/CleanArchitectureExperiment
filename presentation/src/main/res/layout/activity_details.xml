@@ -23,14 +23,15 @@
         android:layout_height="match_parent"
         >
 
-        <by.grodno.vasili.presentation.feature.base.ToolbarView
+        <by.grodno.vasili.presentation.view.ToolbarView
             android:id="@+id/toolbar_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:toolbarTitle="@string/details"
+            app:onOkClick="@{() -> handler.saveIfChanged()}"
+            app:title="@{@string/details}"
             />
 
         <TextView

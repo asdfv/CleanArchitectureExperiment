@@ -8,6 +8,11 @@ import android.widget.Toast;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
+/**
+ * Basic class for activities
+ *
+ * @param <VDB> databinding class
+ */
 public abstract class BaseActivity<VDB extends ViewDataBinding> extends DaggerAppCompatActivity {
     protected VDB binding;
 
