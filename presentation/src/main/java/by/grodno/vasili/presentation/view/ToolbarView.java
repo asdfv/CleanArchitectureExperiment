@@ -46,6 +46,7 @@ public class ToolbarView extends ConstraintLayout {
     /**
      * Setter for optional attribute app:title - title for toolbar
      */
+    @SuppressWarnings("unused")
     public void setTitle(String title) {
         binding.toolbarTitle.setText(title);
     }

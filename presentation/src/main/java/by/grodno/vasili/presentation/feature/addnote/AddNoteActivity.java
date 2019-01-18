@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.annimon.stream.function.Consumer;
 
@@ -53,18 +52,9 @@ public class AddNoteActivity extends BaseActivity<ActivityAddnoteBinding> {
      */
     public class NoteHandler {
         /**
-         * Finish AddNoteActivity
-         */
-        @SuppressWarnings("unused")
-        public void close(View view) {
-            finish();
-        }
-
-        /**
          * Create domain {@link Note} from entered by user fields and try to save it in ViewModel
          */
-        @SuppressWarnings("unused")
-        public void save(View view) {
+        public void save() {
             String title = trim(binding.titleInput.getText().toString());
             String description = trim(binding.descriptionInput.getText().toString());
             if (validateTitle(title) && validateDescription(description)) {
