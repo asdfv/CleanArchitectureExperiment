@@ -17,6 +17,8 @@ import by.grodno.vasili.presentation.databinding.ActivityNotesBinding;
 import by.grodno.vasili.presentation.feature.addnote.AddNoteActivity;
 import by.grodno.vasili.presentation.feature.base.BaseActivity;
 import by.grodno.vasili.presentation.feature.notedetails.DetailsActivity;
+import by.grodno.vasili.presentation.model.NoteItem;
+import timber.log.Timber;
 
 /**
  * Activity for present list of notes
@@ -67,6 +69,11 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
      * @param id clicked note id
      */
     public void onItemClick(String id) {
+        if (id == null) {
+            showToast("Sorry, we can`t show you this note details");
+            Timber.e("Empty id in recycler view");
+            return;
+        }
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra(DetailsActivity.ID, id);
         startActivityForResult(intent, DETAILS_NOTE_REQUEST_CODE);
@@ -89,9 +96,9 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 int position = viewHolder.getAdapterPosition();
-                String id = adapter.getItem(position).id;
-                Runnable onSuccess = () -> showToast("Successfully removed id = " + id);
-                model.removeNoteAsync(id, position, onSuccess);
+                NoteItem item = adapter.getItem(position);
+                Runnable onSuccess = () -> showToast(String.format("Successfully removed note '%s'", item.title));
+                model.removeNoteAsync(item.id, position, onSuccess);
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);

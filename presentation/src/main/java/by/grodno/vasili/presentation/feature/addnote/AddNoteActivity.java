@@ -70,7 +70,7 @@ public class AddNoteActivity extends BaseActivity<ActivityAddnoteBinding> {
 
     private void saveNoteAsync(String title, String description) {
         Consumer<String> onSuccess = id -> {
-            showToast("Successfully saved " + id);
+            showToast(String.format("Successfully saved note '%s' with id = %s", title, id));
             Intent resultIntent = new Intent();
             resultIntent.putExtra(NOTE_SAVED, true);
             setResult(Activity.RESULT_OK, resultIntent);

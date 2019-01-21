@@ -46,7 +46,7 @@ abstract class AppModule {
     static NoteDataRepository provideNoteDataRepository() {
         NoteEntityDataMapper mapper = new NoteEntityDataMapper();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        NoteEntityDatasource datasource = new FirebaseNoteEntityDatasource(mapper, database);
+        NoteEntityDatasource datasource = new FirebaseNoteEntityDatasource(database);
         return new NoteDataRepository(datasource, mapper);
     }
 }

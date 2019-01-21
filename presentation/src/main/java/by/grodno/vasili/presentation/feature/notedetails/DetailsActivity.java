@@ -80,7 +80,7 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding> {
          * Checking entered data for correct and presence of changes and save
          */
         public void saveIfChanged() {
-            NoteItem item = binding.getNote();
+            NoteItem oldItem = binding.getNote();
             String changedTitle = trim(binding.titleText.getText().toString());
             String changedDescription = trim(binding.descriptionText.getText().toString());
             if (!validateTitle(changedTitle) || !validateDescription(changedDescription)) {
@@ -90,9 +90,9 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding> {
                         MAX_DESCRIPTION_LENGTH));
                 return;
             }
-            NoteItem changedItem = new NoteItem(item.id, changedTitle, changedDescription, item.created);
-            if (hasChanges(item, changedItem)) {
-                Consumer<String> onSuccess = id -> showToast(String.format("Note %s successfully updated", id));
+            NoteItem changedItem = new NoteItem(oldItem.id, changedTitle, changedDescription, oldItem.created);
+            if (hasChanges(oldItem, changedItem)) {
+                Consumer<String> onSuccess = id -> showToast(String.format("Note '%s' successfully updated", oldItem.title));
                 Consumer<Throwable> onError = error -> showToast("Error updating note: " + error.getLocalizedMessage());
                 model.save(changedItem, onSuccess, onError);
                 notifyAboutChanges();
