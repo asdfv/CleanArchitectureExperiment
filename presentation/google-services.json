@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "170122090551",
+    "firebase_url": "https://cleanarchitectureexperim-1f532.firebaseio.com",
+    "project_id": "cleanarchitectureexperim-1f532",
+    "storage_bucket": "cleanarchitectureexperim-1f532.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:170122090551:android:c4bebf68fae13a8f",
+        "android_client_info": {
+          "package_name": "by.grodno.vasili.presentation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "170122090551-jgv5tqtubh1f24otqj7krnqkcbvuugcv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "by.grodno.vasili.presentation",
+            "certificate_hash": "b24388fcab0fdb80bc9354b3f88c4191322b0101"
+          }
+        },
+        {
+          "client_id": "170122090551-n6jcdf0vistiliu8vf922s5kjk0sfnpk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgtJQW7bjYePG_iTQ5klDyR63cD3BbXLI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "170122090551-n6jcdf0vistiliu8vf922s5kjk0sfnpk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
