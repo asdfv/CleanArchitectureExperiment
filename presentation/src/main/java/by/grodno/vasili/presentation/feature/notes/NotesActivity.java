@@ -97,7 +97,7 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 int position = viewHolder.getAdapterPosition();
                 NoteItem item = adapter.getItem(position);
-                Runnable onSuccess = () -> showToast(String.format("Successfully removed note '%s'", item.title));
+                Runnable onSuccess = () -> showToast(String.format("Note '%s' successfully removed", item.title));
                 model.removeNoteAsync(item.id, position, onSuccess);
             }
         };
