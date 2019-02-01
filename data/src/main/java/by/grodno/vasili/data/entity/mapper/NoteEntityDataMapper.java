@@ -1,15 +1,12 @@
 package by.grodno.vasili.data.entity.mapper;
 
-import com.google.firebase.database.DataSnapshot;
-
 import by.grodno.vasili.data.entity.NoteEntity;
 import by.grodno.vasili.domain.mapper.Mapper;
 import by.grodno.vasili.domain.model.Note;
 import timber.log.Timber;
 
 /**
- * Mapper class used to transform Firebase {@link DataSnapshot} to {@link NoteEntity}
- * from data layer and {@link Note} in the domain layer.
+ * Mapper for conversation objects from data-layer into objects in domain-layer
  */
 public class NoteEntityDataMapper extends Mapper<NoteEntity, Note> {
 

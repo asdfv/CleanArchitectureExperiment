@@ -23,7 +23,7 @@ public class DetailsViewModel extends ViewModel {
     private final GetNoteUseCase getNoteUseCase;
     private final SaveNoteUseCase saveNoteUseCase;
     private final NoteItemMapper mapper;
-    MutableLiveData<NoteItem> noteLiveData;
+    final MutableLiveData<NoteItem> noteLiveData;
 
     @Inject
     DetailsViewModel(GetNoteUseCase getNoteUseCase, SaveNoteUseCase saveNoteUseCase, NoteItemMapper mapper) {
