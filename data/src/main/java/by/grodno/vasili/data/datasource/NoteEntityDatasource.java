@@ -8,7 +8,7 @@ import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 /**
- * Interface for work with {@link NoteEntity} in datasource
+ * Interface for work with {@link NoteEntity}
  */
 public interface NoteEntityDatasource {
 

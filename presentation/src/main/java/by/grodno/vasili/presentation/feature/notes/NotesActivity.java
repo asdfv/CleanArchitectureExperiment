@@ -108,15 +108,15 @@ public class NotesActivity extends BaseActivity<ActivityNotesBinding> {
     private void initViews() {
         initFloatingButton();
         initRecyclerView();
-        initSwipeContainer();
+        initPullToRefresh();
     }
 
     private void initFloatingButton() {
         binding.fab.setOnClickListener(view -> startActivityForResult(new Intent(this, AddNoteActivity.class), ADD_NOTE_REQUEST_CODE));
     }
 
-    private void initSwipeContainer() {
-        binding.swipeContainer.setOnRefreshListener(() -> model.reloadData(() -> binding.swipeContainer.setRefreshing(false)));
+    private void initPullToRefresh() {
+        binding.refreshContainer.setOnRefreshListener(() -> model.reloadData(() -> binding.refreshContainer.setRefreshing(false)));
     }
 
     private void initRecyclerView() {

@@ -7,8 +7,7 @@ import by.grodno.vasili.domain.mapper.Mapper;
 import by.grodno.vasili.domain.model.Note;
 
 /**
- * Mapper class used to convert {@link Note} from Domain layer to
- * {@link NoteItem} in Presentation layer
+ * Mapper for conversation objects from domain-layer into objects in presentation-layer
  */
 @Singleton
 public class NoteItemMapper extends Mapper<Note, NoteItem> {
